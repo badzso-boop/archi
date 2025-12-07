@@ -134,7 +134,7 @@ Két bitet ad össze (`A` és `B`), de nem tudja kezelni az előző műveletből
     *   0 + 0 = 0 (C=0)
     *   0 + 1 = 1 (C=0)
     *   1 + 0 = 1 (C=0)
-    *   1 + 1 = 0 (C=1) -&gt; Túlcsordulás!
+    *   1 + 1 = 0 (C=1) -> Túlcsordulás!
 *   **Áramkör:** Egy XOR kapu (S) és egy AND kapu (C).
 
 #### Egybites Teljes Összeadó (Full Adder)
@@ -153,12 +153,12 @@ Sok teljes összeadó egymás mellett (pl. 32 db).
 Bonyolultabb, mint az összeadás. A gép is úgy csinálja, mint mi papíron: összeadások és eltolások sorozata.
 *   **BOOTH Algoritmus:** A szorzás gyorsítása.
     *   **Analógia:** Ha meg kell szorozni valamit 99-cel, nem adjuk össze 99-szer. Inkább megszorozzuk 100-zal (kerekítés) és kivonunk belőle egyet.
-    *   **Működés:** A bináris számban lévő sok egymás melletti 1-est (pl. `011110` -&gt; 15+8+4+2) összevonja egy kivonássá és egy összeadássá (`100000 - 000010` -&gt; 32 - 2). Kevesebb művelet = gyorsabb futás.
+    *   **Működés:** A bináris számban lévő sok egymás melletti 1-est (pl. `011110` -> 15+8+4+2) összevonja egy kivonássá és egy összeadássá (`100000 - 000010` -> 32 - 2). Kevesebb művelet = gyorsabb futás.
 
 ---
 
 ### 2.4 Lebegőpontos Számok (Floating Point)
-Törtszámok ábrázolása (pl. $1.23 	imes 10^{-5}$). 
+Törtszámok ábrázolása (pl. $1.23 \times 10^{-5}$). 
 **Felépítése (IEEE 754 szabvány):**
 1.  **Előjel (1 bit):** Pozitív (0) vagy Negatív (1).
 2.  **Karakterisztika (Kitevő):** A nagyságrend. "Mennyivel toljuk el a tizedesvesszőt?". (Többletes kódolással tároljuk, hogy a negatív kitevőket is kezelni tudjuk).
@@ -173,7 +173,7 @@ Törtszámok ábrázolása (pl. $1.23 	imes 10^{-5}$).
 *   *Kiterjesztett:* 80 bit vagy több. (A CPU belsejében, hogy számolás közben pontosabbak legyünk).
 
 **BCD (Binary Coded Decimal):**
-Nem binárisra váltjuk az egész számot, hanem számjegyenként kódoljuk (pl. 19 -&gt; `0001` `1001`).
+Nem binárisra váltjuk az egész számot, hanem számjegyenként kódoljuk (pl. 19 -> `0001` `1001`).
 *   **Előny:** Nincs kerekítési hiba (pénzügyi számításoknál fontos).
 *   **Hátrány:** Több helyet foglal és lassabb vele számolni.
 
@@ -231,9 +231,18 @@ A vezérlőbusz különböző jeleket hordoz:
 *   **Megszakítást vezérlő jelek:** `INTR` (Interrupt Request - megszakítási kérés), `INTACK` (Interrupt Acknowledge - megszakítás nyugtázása).
 *   **Buszvezérlő jelek:** `Bus Request` (busz kérése), `Bus Grant` (busz megadása).
 
+### 3.4 Chipset Evolúció (Új)
+*   **Régi (IBM PC):** Rengeteg különálló chip.
+*   **Pentium korszak:**
+    *   *Északi híd (Northbridge):* Gyors eszközök (RAM, Videókártya/AGP).
+    *   *Déli híd (Southbridge):* Lassú eszközök (HDD, USB, Billentyűzet).
+*   **Modern (Core i):**
+    *   Az Északi hidat beintegrálták a CPU-ba (System Agent). A memória-vezérlő a processzorban van (gyorsabb!).
+    *   A Déli híd szerepét a PCH (Platform Controller Hub) vette át.
+
 ---
 
-### 3.4 PCIe (PCI Express)
+### 3.5 PCIe (PCI Express)
 **Fogalom:** Modern, nagy sebességű, pont-pont (dedikált) soros busz.
 **Analógia (Dedikált gyorsvasút):** Minden PCIe eszköznek (pl. videókártya, NVMe SSD) saját, közvetlen, gyors "vasútvonala" van a processzorhoz.
 *   **Előny:** Nincs dugó, hatalmas sebesség, párhuzamosan működhetnek az eszközök.
@@ -241,7 +250,7 @@ A vezérlőbusz különböző jeleket hordoz:
 
 ---
 
-### 3.5 USB-C (Univerzális Soros Busz - C típus)
+### 3.6 USB-C (Univerzális Soros Busz - C típus)
 **Fogalom:** Egy univerzális csatlakozó, ami sok mindenre jó (adat, töltés, videó).
 **Analógia (Mindenes svájci bicska):** Egyetlen csatlakozó, ami tud:
 *   Tölteni telefont (áram).
@@ -255,7 +264,7 @@ A vezérlőbusz különböző jeleket hordoz:
 
 ---
 
-### 3.6 Párhuzamos Buszok vs. Soros Buszok
+### 3.7 Párhuzamos Buszok vs. Soros Buszok
 
 #### Párhuzamos Buszok (A régi autópálya)
 **Analógia:** Több sávos autópálya. Sok autó (bit) egyszerre.
@@ -275,16 +284,17 @@ A vezérlőbusz különböző jeleket hordoz:
 
 ---
 
-### 3.7 Modern Rendszerbuszok (A CPU belső "autópályái")
+### 3.8 Modern Rendszerbuszok (A CPU belső "autópályái")
 
-#### HyperTransport (HT)
+#### HyperTransport (HT) - AMD
 **Analógia:** Egy kétirányú, pont-pont "alagút" két CPU között, vagy CPU és I/O között.
 *   **Előny:** Alacsony késleltetés, magas sávszélesség.
 
-#### QPI (QuickPath Interconnect)
-**Analógia:** Az Intel válasza a HyperTransportra. Szintén pont-pont, nagy sebességű kapcsolat, beépített memóriavezérlővel.
-*   **Előny:** A memóriavezérlő közvetlenül a CPU-ban van, nem kell a CPU-nak kijárnia adatért.
-*   **NUMA (Non-Uniform Memory Access):** Ha több CPU van, mindegyik a saját memóriája gyorsabban éri el, mint a távoli CPU memóriáját.
+#### QPI (QuickPath Interconnect) - Intel
+**Analógia:** Az Intel válasza a HyperTransportra. Szintén pont-pont, nagy sebességű kapcsolat.
+*   **Felépítése:** Pontosan 20 adatvonal (lane) irányonként. Ebből 16 adat, 2 protokoll, 2 CRC (hibaellenőrzés).
+*   **Előny:** A memóriavezérlő közvetlenül a CPU-ban van (NUMA).
+*   **DMI (Direct Media Interface):** Az olcsóbb Intel processzoroknál (i3/i5) a chipset felé nem a drága QPI-t, hanem a lassabb DMI-t használják.
 
 <br>
 
@@ -382,7 +392,7 @@ Ha egy "fontosabb" megszakítás jön, az félbeszakíthatja a "kevésbé fontos
 
 #### Többszintű, többvonalas (Osztályozott)
 A megszakításokat csoportokba (osztályokba) soroljuk.
-*   **Osztályok között:** Szigorú sorrend (pl. 1. osztály &gt; 2. osztály).
+*   **Osztályok között:** Szigorú sorrend (pl. 1. osztály > 2. osztály).
 *   **Osztályon belül:** Prioritás (pl. 'a' fontosabb mint 'b').
 Ez a legrugalmasabb rendszer.
 
@@ -465,13 +475,13 @@ Ez a modul a számítógép elsődleges adattárolóját, a memóriát és annak
 #### SRAM (Statikus RAM)
 *   **Felépítés:** Flip-Flop áramkörök (4-6 tranzisztor). A tranzisztorok körbe kergetik a jelet, "emlékeznek" rá.
 *   **Analógia (Villanykapcsoló):** Ha felkapcsolod, úgy marad, amíg van áram. Nem kell vele foglalkozni.
-*   **Jellemző:** Nagyon gyors, de drága és sok helyet foglal. -&gt; **Cache**.
+*   **Jellemző:** Nagyon gyors, de drága és sok helyet foglal. -> **Cache**.
 
 #### DRAM (Dinamikus RAM)
 *   **Felépítés:** 1 kondenzátor + 1 tranzisztor. A kondenzátor tárolja a töltést (bitet).
 *   **Analógia (Lyukas vödör):** A vödörben lévő víz jelenti az adatot. A vödör picit lyukas, szivárog.
 *   **Frissítés (Refresh):** Időnként újra kell tölteni a vödröt (kiolvasni és visszaírni), különben elveszik az adat.
-*   **Jellemző:** Lassabb, de olcsó és nagyon kicsi (nagy kapacitás). -&gt; **Rendszermemória**.
+*   **Jellemző:** Lassabb, de olcsó és nagyon kicsi (nagy kapacitás). -> **Rendszermemória**.
 
 ### 7.3 SDRAM és DDR Fejlődése
 
@@ -490,7 +500,7 @@ A cél: minél több adatot átvinni egyszerre.
 *   **DDR2 (4n Prefetch):** 4 adatot készítünk elő. Magasabb órajel.
 *   **DDR3 (8n Prefetch):** 8 adatot készítünk elő.
 *   **DDR4:** Még gyorsabb, alacsonyabb fogyasztás, bankcsoportok bevezetése.
-*   **DDR5 (16n Prefetch):** Két külön 32 bites csatorna modulonként, beépített hibajavítás (ECC).
+*   **DDR5 (16n Prefetch):** Két külön 32 bites csatorna modulonként, beépített hibajavítás (On-die ECC), PMIC (Power Management IC) a modulon.
 
 ### 7.4 Adattárolás és Kiolvasás (A Mátrix)
 A memória cellák egy hatalmas táblázatban (mátrixban) vannak, sorokra és oszlopokra osztva. Több ilyen mátrix alkot egy **Bankot**.
@@ -558,6 +568,12 @@ Ahogy a tranzisztorok egyre kisebbek lettek, a "tömítés" (oxid réteg) túl v
     *   **Megoldás:** A Kapu **mind a 4 oldalról** (teljesen körbe) veszi a csatornát, mint egy gyűrű.
     *   **Nano-sheet:** A csatorna nem egy drót, hanem lapos szalagok (sheet) egymás fölött, hogy több áram férjen át.
     *   **Eredmény:** Tökéletes vezérlés, maximális hatékonyság.
+
+### 8.5 Adatok és Chipek (Tanári anyagból)
+*   **1971:** Intel 4004 (10 µm).
+*   **2023:** Apple M3 Max (3 nm, GAAFET, 92 milliárd tranzisztor).
+*   **2025:** AMD EPYC 9965 (192 mag).
+*   **AI Chipek:** Tenzor magok a mátrixszorzáshoz (MAC műveletek).
 
 <br>
 
@@ -738,6 +754,8 @@ Ez a modul a modern processzorok utolsó, nagy ugrását tárgyalja a sebesség 
 *   **Túlmelegedés:** A hatalmas órajel miatt rengeteget fogyasztott és melegedett. (A motor iszonyatosan forró volt).
 *   **Replay System:** Egy "biztonsági háló", ami újra elküldte az utasításokat, ha azok nem hajtódtak végre elsőre (pl. adatfüggőség miatt).
 
+--- 
+
 ### 12.2 Szálszintű Párhuzamosítás (SMT / Hyper-Threading)
 
 **Fogalom:** Egy fizikai processzormag (vagy annak végrehajtó egységei) több program szálat is képes párhuzamosan futtatni, a kihasználatlan erőforrások kiaknázásával.
@@ -748,6 +766,8 @@ Ez a modul a modern processzorok utolsó, nagy ugrását tárgyalja a sebesség 
     *   A zsonglőr egyszerre 4 labdával zsonglőrködik (2 szál feladatai).
     *   Amikor az egyik labda a levegőben van (1. szál vár), a zsonglőr a másik labdával (2. szál) folytatja a játékot. Így a keze (a CPU végrehajtó egységei) sosem áll meg.
 *   **Eredmény:** Az operációs rendszer azt hiszi, két külön "zsonglőr" (logikai mag) van, pedig csak egy, aki nagyon ügyesen használja ki az idejét. Ezáltal növeli a mag kihasználtságát és a teljesítményt.
+
+---
 
 ### 12.3 A Szál (Thread)
 
