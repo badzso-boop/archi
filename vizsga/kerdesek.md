@@ -17,7 +17,7 @@ Ez a dokumentum a teljes féléves tananyagot lefedi, beleértve a 2024/2025-ös
 6.  **Utasítás típusok címek száma szerint:** Hasonlítsa össze a 3, 2, 1 és 0 címes utasításokat! Melyiknek mi az előnye/hátránya (kódhossz, hardver bonyolultság)?
 7.  **Összeadók:** Vezesse le az Egybites Félösszeadó és az Egybites Teljes Összeadó működését! Mi a _Carry Look-Ahead (CILA)_ szerepe? Hogyan épül fel a "Generate" (G) és "Propagate" (P) jelekből ($C_{out} = G + P \cdot C_{in}$)?
 8.  **Szorzó algoritmusok:**
-    - **Booth-algoritmus:** Fejtse ki a működési elvét! Hogyan kezeli a sorozatos 1-es biteket (pl. $X \cdot (2^{k+1} - 2^m)$)?
+    - **Booth-algoritmus:** Fejtse ki a működési elvét! Hogyan kezeli a sorozatos 1-es biteket (pl. $X \cdot (2^{k+1} - 2^m)$ )?
     - **Bitcsoportos szorzás (Bit-pair recoding):** Miben tér el a Booth-tól? (Fix 2 bites csoportok kezelése).
 9.  **IEEE 754 Lebegőpontos számok:**
     - Felépítés (előjel, karakterisztika, mantissza).
