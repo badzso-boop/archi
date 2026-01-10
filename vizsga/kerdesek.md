@@ -22,7 +22,7 @@ Ez a dokumentum a teljes féléves tananyagot lefedi, beleértve a 2024/2025-ös
 9.  **IEEE 754 Lebegőpontos számok:**
     - Felépítés (előjel, karakterisztika, mantissza).
     - Történeti érdekesség: Melyik gép használta először a **rejtett bitet** (Zuse Z3)?
-    - Rejtett bit, "ozo" bitek, kiterjesztett pontosság, Kerekítési módok.
+    - Rejtett bit, "örző" bitek, kiterjesztett pontosság, Kerekítési módok.
 10. **BCD (Binary Coded Decimal):** Mi a BCD ábrázolás előnye (pénzügyi számítások)? Mik azok az "érvénytelen tetrádok"?
 11. **Vezérlőegység:** Huzalozott vs. Mikroprogramozott vezérlőegység összehasonlítása.
 
