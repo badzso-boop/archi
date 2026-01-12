@@ -174,7 +174,36 @@ CU - COntrol Unit, ez iranyit mindent hogy mi mit csinaljon
 **14. Gépi kód levezetése, utasítás lehívás + tárolás bemutatása**
 _(Gyakoriság: ritka)_
 _Megjegyzés: Van egy ilyen dia, amit elvileg csak BSc-n kér, gyakorlatilag ki tudja. Nem tudom, hogy amikor a "gépi utasítást" kéri az ez, vagy a "gépi kódú utasítás"._
-<Hely a válasznak>
+
+ADD m1 m2
+
+Fetch
+
+- MAR <- PC
+- MDR <- [MAR]
+- IR <- MDR
+- PC <- PC + 1
+
+Execution 1
+
+- DEC <- IR
+- MAR <- DEC cimresz (m1)
+- MDR <- [MAR]
+- AC <- MDR
+
+Execution 2
+
+- DEC <- IR
+- MAR <- DEC cimresz (m2)
+- MDR <- [MAR]
+- AC <- ACC + MDR => ALU muvelet
+
+Store
+
+- DEC <- IR
+- MAR <- DEC cimresz (m1)
+- MDR <- AC
+- [MAR] <- MDR
 
 ---
 
@@ -188,14 +217,51 @@ _Megjegyzés: Utasítás típusoknak is lehet őket hívni (4 címes utasítás,
 **16. Mit jelent az állapottér kifejezés, rajzolja fel a csoportosítás ágrajzát!**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Definíció + ágrajz._
-<Hely a válasznak>
+
+Olyan programbol lathato es nem lathato tarolokbol all, melyek az adott programra vonatkozo allaptinformaciokat hordozzak.
+
+A flagek nem adatot, hanem allapotot tarolnak. Specialis utasitasokkal mentheto, beallithato, torolheto.
+A transzparens allapotter olyan mechanizmusokbol all amelyeket a program nem kezel kozvetlenul, megis hat a vegrehajtasra
+
+állapottér
+
+- látható
+  - PC
+  - Státusz indíkátorok (flagek)
+    - condition code
+    - univerzalis allapotjelzok
+    - adattipusonkent kotelezo allapotjelzok
+  - egyéb
+    - debug
+    - címzési módok
+    - indexelés
+- transzparens
+  - virtualis memoriakezeles
+  - veremkezeles
+  - megszakitaskezeles
 
 ---
 
 **17. Milyen műveletek végezhetőek el flagek és Program Counter esetén?**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Általában ez az állapotteres feladattal van egyben._
-<Hely a válasznak>
+
+A flagnél lehet Beállítani (SET), Lekérni (Check), Mentés/Visszatöltés.
+A PC-nél lehet inkrementálni, felülírni, menteni -> stackre
+
+PC
+
+- Inkrementáls
+- Dekrementálás
+- Felülírás
+
+Flag
+
+- Save
+- Set
+- Reset
+- Load
+- Clear
 
 ---
 
@@ -211,99 +277,210 @@ _Megjegyzés: Az ez alatt lévő szokott lenni._
 **19. Sorolja fel az ALU felépítési elemeit!**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Eddig rajz is kellett (adatutak miatt), sajnos most fogalmam sincs, hogy itt mit kérdez, mert no way, hogy csak 4 dolgot kell felsorolni._
-<Hely a válasznak>
+
+- Regiszterek
+  - Dedikált regiszter, egyszeru regiszter, stack regiszter, többszörös regiszter, univerzális regiszter
+- Adatutak
+  - ez koti ossze a cpu-t a regiszterekkel, de fontos ez nem adatbusz. Itt nincs cimzes csak adatkuldes. Egyszerre csak egy adat folyik rajta.
+- Kapcsolópontok
+  - ezzel tudja iranyitani az alu, hogy az adatok eppen merre menjenek ezek tranzisztorok
+- Szűkebb értelembe vett ALU
+  - ez maga a szamito egyseg ami elvegzi a muveleteket
 
 ---
 
 **20. Mit jelent az adatút kifejezés? Rajzolja fel a két utas csatolási módot, és magyarázza meg mi mit jelent?**
 _(Gyakoriság: kihalt)_
 _Megjegyzés: Eddig elég sokszor volt (gyakori), főleg az előző kérdéssel együtt. Mostmár viszont szinte teljesen ki került a diákból és azt mondta, nem is fogja kérni._
-<Hely a válasznak>
+
+Az adatút ami összeköti a CPUn belul a dolgokat, a regisztereket alut pc-t. Mindent. Ez egy nagy vezetekrendszer amin egyszerre csak egy adat mehet az egyik iranyba. Nem kell cimezni csak elkuldeni a megfelelo vezeteken az adatot.
+
+Két utas csatolási mód amikor van egy bemenet (Load / Enable)
+Ez vezérli a bemenetet, csak akkor irodik be az adat a regiszterbe, ha a vezerlojel aktiv
+A kimenet harom allapotu
+0,1 valamint a zart. Ha eppen nem ő az aktív regiszter akkor lekapcsolódik a sínről a zárt részével
 
 ---
 
 **21. Rajzolja fel az 1 bites félösszeadót, mutassa be a működését, előnyeit, hátrányait!**
 _(Gyakoriság: ritka)_
 _Megjegyzés: Félösszeadót kérheti, gyakorlatban nagyon ritkán van csak._
-<Hely a válasznak>
+
+Az egybites félösszeadónál van két bemenet, majd ebből lesz egy kimenet valamint egy carry kimenet. Az igazságtáblája egyszerű. A bekötése is egyszerű, kell egy xor amibe az a és b van bekötve ez adja az S-t valamint egy and amibe ugyan ugy az a es b van bekotve ez adja a carryt.
+
+Előnye: egyszerű és gyors, hátránya, hogy nem tud mit kezdeni az elozo helyiertekrol jovo atvitellel, tehat nem tudja a carry int feldolgozni.
+
+A|B|S|C
+0|0|0|0
+1|0|1|0
+0|1|1|0
+1|1|1|1
 
 ---
 
 **22. Rajzolja fel az 1 bites teljes összeadót, mutassa be a működését, előnyeit, hátrányait!**
 _(Gyakoriság: gyakori)_
-<Hely a válasznak>
+
+Az egybites teljes összeadó tudja kezelni az elozo helyiertekrol jovo carryt illetve a vegeredmenyt is ki tudja adni az uj carryvel. Az igazságtáblája bonyolultabb. Kb meg is tudtam csinalni :D. A kapcsolása a háttérben: A és B egy xor kapuba, ennek a kimenete és a Cin is egy xor kapuba es ebbol megkapjuk az S-t. Majd az A, B, Cin 3 and kapuba mindegyik mindegyikkel össze van kötve és ezeknek a kimenete egy or kapuba, ez adja meg a Cout-ot.A hátránya, hogy bonyolultabb és több alkatrész kell hozzá.
+
+A|B|Cin|S|Cout
+0|0|0|0|0
+1|0|0|1|0
+0|1|0|1|0
+1|1|0|0|1
+1|1|1|1|1
+0|0|1|1|0
+0|1|1|0|1
+1|0|1|0|1
 
 ---
 
 **23. Rajzolja fel az N-bites soros összeadót, mutassa be a működését, előnyeit, hátrányait!**
 _(Gyakoriság: gyakori)_
-<Hely a válasznak>
+
+Az N bites soros összeadónál van kettő léptető ami a biteket lépteti A-nál és B-nél is, valamint van egy tároló ami a carry-ket vezeti vissza, ha keletkezik. Rajzolni itt nem tudok a markdown fajlba de kepzeld ide :D. ELőnye, hogy már komplexebb számokat is össze tud adni, viszont a hátránya, hogy minél nagyobb a szám annál tovább tart. Főleg ha sok a carry is. Mert egy összeadás egy órajel idejéig tart.
+Egyetlen teljes összeadó csinálja az összeadásokat. Az idő, hogy összeadja pontosan annyi mint a bitek száma amit összead.
 
 ---
 
 **24. Rajzolja fel az N-bites párhuzamos összeadót, mutassa be a működését, előnyeit, hátrányait!**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Szokta a "ripple carry adder" kifejezést is használni._
-<Hely a válasznak>
+
+Az n bites párhuzamos összeadónál a bemenetet fel tudják bontani több teljes összeadóra, így ezek tudnak párhuzamosan számolni. A carryt is bekötik és egymásnak tovább is adják. Akkor van gond ha sok carry keletkezik, hiszen akkor visszavált szinte a soros összeadó sebességére, mivel meg kell várnia az utolsónak is mire a carry odaér hozzá. Előny: Tud gyorsabb lenni mint a soros, viszont hátrány, ha sok a carry akkor szinte azonos sebessége van a sorossal.
 
 ---
 
 **25. Rajzolja fel a módosított teljes összeadót, mutassa be a működését, előnyeit, hátrányait! Mit jelent a "P" és "G", hogyan állnak elő?**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Itt a CLA-ra gondol a költő, de előfordult már, hogy csak a "módosított összeadó" részét kérte, de végül is az a lényeg. Azt is mondta, hogy le kell vezetni a C0-ig, de csak addig._
-<Hely a válasznak>
+
+A modositott teljes osszeado azert gyorsabb mert van egy olyan reszegysege ami ki tudja szamolni elore a carryket igy lehet gyorsitani a szamitast. Előnye: hogy kevesebb ido alatt tud kiszamolni egy egy muveletet hatranya, viszont hogy bonyolult es sok plusz aramkorre van szuksege.
+
+Erre nem emlekszek most nezem ki
+P = A + B
+G = AB
+Cout = BCin + ACin + AB => AB + (A+B)Cin
+
+Cout = G + PCin
+C0 = G0 + P0Cin
 
 ---
 
 **26. Hogyan gyorsítható a fixpontos szorzás, mutassa be ezeket! (Bitcsoporttal való szorzás, Booth-algoritmus)**
 _(Gyakoriság: gyakori)_
-<Hely a válasznak>
+
+Bitcsoportos szorzassal gyorsithato a szorzas, mert a szorzasi lepeseket a felere lehet csokkenteni pl egy 32 bites szorzast meg lehet oldani 16 ciklusbol. 3 bitet vizsgalunk egyszerre az elozo 1-t valamint 2t a mostaniakbol i + 1, i, i - 1 az i - 1 azert kell mert meg tudjuk vizsgalni hogy az elozobol maradt-e valami maradek vagy atvitel.
+
+Booth algoritmus, amikor sok egyes van egy helyen akkor lehet azt csinalni, hogy felkerekitunk a legkozelebbi egesz szamhoz es kivonunk belole annyit, hogy visszakapjuk azt a szamot amit akarunk.
+pl: 62-vel szeretnenk szorozni, akkor szorzunk 64-el majd kivonunk belole kettot igy a sok szorzas meg eltolas helyett eleg egy szorzas illetve egy negalttal valo osszeadas.
 
 ---
 
 **27. Hogyan néz ki a lebegőpontos számok értelmezési tartománya, rajzolja fel az ÉT számegyenesét!**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Általában másik kérdésekkel együtt van._
-<Hely a válasznak>
+
+A fixpontos szamok abrazolasa 16 bit eseten -32768;+32767 ig van ami eleg kicsi tartomany es a pontossaga sem tul jo.
+
+Ertelmezesi tartomany:
+
+```
+Karakterisztika bitek szama | legnagyobb ertek | ertelmezesi tartomany
+1                           | 1 = 1            |  2 ^ +- 1
+2                           | 11 = 3           |  2 ^ +- 3
+3                           | 111 = 7          |  2 ^ +- 7
+4                           | 1111 = 15        |  2 ^ +- 15 (=FX16 32768)
+```
+
+Tizes szamrendszer alapjan pontossaga
+
+```
+felhasznalhato regio                 alulcsordulasi regio   felhasznalhato regio      tulcsordulasi regio
+|-----------------------------------|---------|--------|--------------------------|--------------
+min -> -0.9999 * 10^n-1         -0.1*10^n   0      0.1*10^n            max -> -0.9999 _ 10^-n-1
+```
+
+FP = M \* r^k
+M: Mantissza r: radix k: karakterisztika. AZ elvaras hogy a radix egyezzen meg a mantisszanal hasznalt szamrendszer alapjaval.
 
 ---
 
 **28. Hogyan kezelhető a túlcsordulás, illetve alulcsordulás?**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Általában a számegyeneses kérdéssel együtt van._
-<Hely a válasznak>
+
+Ha tulcsordulas van akkor vagy a pozitiv vegtelent jeleniti meg a rendszer vagy a legnagyobb megjelenitheto szamot jeleniti meg
+Ha alulcsordulas van akkor kijelzi es konvergal 0-ra vagy a denormalizalt szamot jelzi ki
 
 ---
 
 **29. Jellemezze az örző bitet és rejtett bitet, hogyan őrizhető meg velük a pontosság?**
 _(Gyakoriság: gyakori)_
-<Hely a válasznak>
+
+A rejtett bit egyszeru, mivel normalizalasnal mindig 1-essel kezdodik a szam ezert azt az elso bitet ugymond elhagyhatjuk (valojaban elrakjuk a rejtett bitbe) es majd amikor ki kell irni a memoriaba akkor onnan beolvassuk.
+
+Az orzo bit arra hivatott, hogy van par plusz bit a szamok vegenel igy ha kerekites vagy valami miatt le kene vagni bitet a vegerol akkor azt oda menjtuk ki es amikor normalizalni kell vagy menteni akkor meg onnan olvasunk be biteket igy megmaradhat a nagy pontossag
 
 ---
 
 **30. Mi jellemzi a lebegőpontos számok kódolását?**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Általában másik kérdésekkel együtt van._
-<Hely a válasznak>
+
+Mantissza kodolasa -> kettes komplemens
+Karakterisztika kodolasa -> tobbletes kodolassal
+
+Mert a karakterisztika eseten a tobbletes kod kialakitasa gyorsabb, de a mantisszanal azert nem hasznaljok mert csak alap muveletet lehet elvegezni plus minus
 
 ---
 
 **31. Jellemezze az IEEE lebegőpontos szabványt, milyen részei vannak?**
 _(Gyakoriság: gyakori)_
-<Hely a válasznak>
+
+Ez a szabvany megadja hogy kulonbozo CPU-k kozott a szamitas egyseges maradjon. A szabvanynak valo megfeleles hogy a harver es a softver is kielegitse a kovetelmenyeket. Pontossag:
+Egyszeres 32 bit -> gyors, keves hely, pontatlan
+Kétszeres 64 bit -> lassabb, cserebe nagyon pontos
+Bővített 80bit  
+Négyszeres 128 bit -> ultra magas pontosság, tudományos körökben alkalmazott
+
+Tárolás
+
+Egyszeres
+1 elojel bit, 8 karakterisztika bit, 23 mantissza bit
+Kétszeres
+1 elojel but, 11 karakterisztika bit, 52 mantissza bit
+
+Kerekitesek:
+Legközelebbre valo kerekites (nem tudjuk melyik iranyba)
+0hoz valo kerekites (eldobjuk az orzo biteket)
+Minusz vegtelenhez valo kerekites
+Plusz vegtelenhez valo kerekites
+
+Kivételkezelés
+Ha alul vagy tulcsordulas van, 00val osztunk stb akkor kivetelek kepezodnek
 
 ---
 
 **32. Hogyan történik a műveletvégzés lebegőpontos számok esetében?**
 _(Gyakoriság: kihalt)_
-<Hely a válasznak>
-
----
-
 **33. Rajzolja fel és mutassa be a lebegőpontos műveletvégzőt!**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Így is szerepelhet a táblázatban: DF ábra, dedikált lebegőpontos műveletvégző. Fontos megemlíteni a párhuzamos műveletvégzést._
-<Hely a válasznak>
+
+Parhuzamosan vegezheto a mantissza es a karakterisztikanak a szamolasa. AxB -> ma x mb; ka + kb
+
+```
+   Vezerlojel
+       |
+     Vezerlo
+  |         |
+Mantissza  Karakterisztika
+egyseg          egyseg
+  |               |
+---------------------
+      ADATBUSZ
+```
 
 ---
 
@@ -322,13 +499,13 @@ _(Gyakoriság: kihalt)_
 
 **36. Jellemezze a huzalozott áramköri vezérlést!**
 _(Gyakoriság: kihalt)_
-<Hely a válasznak>
+A huzalozott vezerloegysegek gyorsabbak mivel minden egy alaplapon van elektronikabol osszerakva viszont cserebe nagyon nehezen modosithato es rendkivul bonyolult, ezzel szemben a mikroporgramozottnal van egy egyszerubb vezerlo egyseg majd ebbe programoznak valami logikat. Ez olcsobb kevesbe bonyolultabb es az algoritmus konnyebben modosithato, de cserebe eleg lassu a masikhoz kepest.
 
 ---
 
 **37. Jellemezze a mikroprogramozott vezérlést!**
 _(Gyakoriság: kihalt)_
-<Hely a válasznak>
+A huzalozott vezerloegysegek gyorsabbak mivel minden egy alaplapon van elektronikabol osszerakva viszont cserebe nagyon nehezen modosithato es rendkivul bonyolult, ezzel szemben a mikroporgramozottnal van egy egyszerubb vezerlo egyseg majd ebbe programoznak valami logikat. Ez olcsobb kevesbe bonyolultabb es az algoritmus konnyebben modosithato, de cserebe eleg lassu a masikhoz kepest.
 
 ---
 
@@ -384,35 +561,156 @@ _(Gyakoriság: gyakori)_
 **45. Csoportosítsa a buszrendszereket, mik vannak bennük?**
 _(Gyakoriság: kevésbé ritka)_
 _Megjegyzés: Ezt is későbbi vizsgákra szokta rakni._
-<Hely a válasznak>
+
+Átvitel iránya szerint
+
+- szimplex -> az adat csak egy irányba tud menni pl CLK, RST
+- fél duplex -> az adat ket iranyba tud menni, de egyszerre csak az egyikbe
+- full duplex -> ket irany egy idoben. (PCIe)
+
+Átvitel jellege szerint
+
+- Dedikált busz -> minden mindennel kommunikál (Intel QPI)
+  - előny: gyors, közvetlen kommunikáció
+  - hátrány: merev, nehezen bővíthető
+- megosztott -> egy nagy egységes vezetéken kommunikál minden, Buszvezérlő utasításokra van szükség az ütközések elkerülésére
+  - Előny: olcsó, egyszerű megvalósítás, könnyen bővíthető
+  - Hátrány: lassu, buszfoglalást kell alkalmazni, hiba több eszközt is befolyásol, vezérlés bonyolult
+- Átvitt tartalom szerint
+
+  - címbusz: eszközök és memória címzésére szolgál.
+  - Adatbusz: Adatok szállítása a CPU és a memória / perifériák között. Sávszélesség nőtt az idők folyamán: 1bit, 2bit, 4bit, 8bit, 16bit, 32bit
+
+  Soros buszok
+
+  - elég egy vezetékpár
+  - biteket bitsorozatonkent lehet atkuldeni (ehhez plusz hardver kell)
+  - egy gyors soros erparon tobb adat tovabbithato mint tobb lassun
+  - Nagyobb frekvencian nagy tavolsagra biztosit atvitelt jitter nelkul
+
+  Parhuzamos buszok
+
+  - Tobb vezeteket hasznal -> tobb adat atvitel
+  - Sok vezetek hatranya, hogy komplex, draga, sok helyet foglal
+  - Viszont hardver vonatkozasban konnyu implementalni
+  - Magasabb frekvencian jonnek a gondok -> jitter
+
+  Manapsag csak a cpu es memoria kozott van parhuzamos busz
 
 ---
 
 **46. Hasoníltsa össze a PCI és PCIe busz (soros és párhuzamos) buszokat, sorolja fel az előnyeiket illetve hátrányaikat!**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Szokott lenni a PCIe külön is (PCI NEM lehet külön), volt olyan, hogy 1-1 mondatot kért, hogy miért jó egyes tulajdonsága. Olyan is szokott lenni, hogy "miért gyorsabb, mint az USB?"_
-<Hely a válasznak>
+
+- PCI
+
+  - párhuzamos, megosztott buszrendszer
+  - Minden csatlakoztatott eszköz azonos címbuszt, adatbuszt, vezérlővonalat használ
+  - Közvetlen a CPU által látott címtérből kapnak adatot
+  - buszfoglalás kell
+  - egy időben csak egy master végezhet munkát
+  - Előnyök: közel a CPUhoz, viszonylag olcsó, egyszerű felépítés
+  - Hátrány: megosztott busz, ütközésveszély, párhuzamos átvitel, sok eszköznél jelentősen lassul
+
+- PCIe
+  - soros, pont-pont topologiaju buszrendszer
+  - Nem megosztott busz: minden eszkoz kulon osszekottetest kap a vezeerlo fele
+  - kulon kuldes es fogadas
+  - full duplex mukodes
+  - egy idoben tobb vegpont parhuzamosan kommunikal
+  - csomagokba agyazott adatatvitel
+  - tobbfele szelesseg x1, x4, x8, x16, x32
+  - Elonyok: Nagy adatatviteli sebesseg, kevesebb erintkezo, full duplex, hot-plug tamogatas
+  - Osszetett protokoll -> nagy vezerlesi overhead, teljesitmeny cpu-tol fugg, dragabb implementacio mint a PCI
 
 ---
 
 **47. USB 4.0 v2 tulajdonságok, gyorsítási lehetőségek!**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Itt USB-C rajzot is kérhet pinekkel, volt olyan, hogy miért gyors stb. A gyorsítási lehetőség nem tudom mit takar._
-<Hely a válasznak>
+
+Hagyományos usb-a, usb-b
+
+- 2 erpart tartalmaz
+- teljesitmenye max 5W
+
+USB-C
+
+- 4 erpart tartalmaz
+- 24 pines csatlakozo 2x12 erintkezo
+- teljesitmenye: 15W - 100W
+
+Csatlakozók
+
+- GND
+- RX+, RX- -> nagysebessegu adatfogadasi vezetekpar
+- TX+, TX- -> nagysebessegu adatkuldesi vezetekpar
+- Vbusz -> aramellatast biztositja
+- D+, D- -> USB 2.0 adatatviteli vezetek
+- CC, SBU -> alternativ vezetekek
+
+```
+  GND RX+ RX- Vbusz D- D+ CC Vbusz TX- TX+ GND
+/-----------------------------------------------\
+\-----------------------------------------------/
+  GND TX+ TX- Vbusz D+ D- SBU Vbusz RX- RX+ GND
+```
+
+- Asszimetrikus adatatvitelre is kepes 80-120Gbit/sec => 10-15 GB/s
+- Csomagkapcsolt adatatvitel
+
+4 tipusu csomag
+
+- Idokritikus csomag: allando sebesseggel kozlekednek, adatatvitelben fellepo hibakat nem javitja
+- Nagy adatcsomag: alacsony prioritasuak, sok adat tovabbitasara
+- Megszakitasi csomag: az egysegek kiszolgalasi kereseire hasznaljak
+- Vezerlesi csomagok: cimkiosztashoz, eszkozok azonositasahoz, handshake elven
 
 ---
 
 **48. Jellemezze a PAM3-at, PAM4-et!**
 _(Gyakoriság: nem volt még)_
 _Megjegyzés: Valamiért idén sokszor kiemelte, lehet új kérdés lesz?_
-<Hely a válasznak>
+
+Adatsuruseg novelesere a jelkodolas egy jo megoldas lehet, nem kuldunk gyorsabban jelet, hanem tobb informacio kerul egyetlen jelalakba
+
+PAM3 (USB 4 2.0, GDDR7 memoria)
+
+- 3 amplitudo szint -1, 0, +1, (0, 1, 2)
+- Tritek: harmas szamrendszer
+- Kozepso szint stabil referencia
+- Fizikailag stabilabb
+- Orajelenkent 1.58 bit atvitel tortenik
+
+PAM4 (2024 Nvidia GPU)
+
+- 2bit/szimbolum
+- nagy bithiba arany miatt nem gyorsabb mint a PAM3
+- Orajelenkent 2 bit atvitel tortenik
 
 ---
 
 **49. Jellemezze az Intel QPI-t és HT-t!**
 _(Gyakoriság: nem volt még)_
 _Megjegyzés: Ezt mindig mondta, hogy kell, gyakorlatban csak ZV-n volt eddig._
-<Hely a válasznak>
+
+HyperTransport rendszerbusz
+
+- Kétirényu soros/parhuzamos szelessavu, alacsony kesleltetesu kapcsolat
+- Fo feladata a front side bus kivaltasa
+- CPU lapkajara van integralva, de nagy savszelessegu IO buszkent is alkalmazzak
+- Ket fele egyseget tartalmaz
+  - Alagut: vegen talalhato 2 HT port -> tobb HT egyseget tudunk osszefuzni
+  - Cave: Ez zarja le a tunnelt lancot
+- PCI-tol elteroen a HT nem rendelkezik dedikalt IO cimterrel, ehelyett mamoriabol lekepzett IO-val rendelkezik
+
+QuickPath Interconnect
+
+- Feladata a front side bus kivaltasa
+- A QPI-t hasznalo procik is lapkara integralt memoria vezerlokkel es non-uniform memory accessel rendelkeznek
+- Distributed Shared memory: fizikailag elosztott memogira egyetlen logikailag kozos cimterben
+- 5 reteges architekturat hasznal (2 vezetek minden egyseg kozott): 1 orajel alatt 20 adatbizet tud atvinni parhuzamosan
 
 ---
 
@@ -421,41 +719,163 @@ _Megjegyzés: Ezt mindig mondta, hogy kell, gyakorlatban csak ZV-n volt eddig._
 **50. Rajzolja fel a blokkos DMA rajzát, és mutassa be a működését!**
 _(Gyakoriság: kevésbé ritka)_
 _Megjegyzés: Rajzot már nem fog elvileg kérni. Viszont a DMA-nál a blokkos átvitel folyamatát tudni kell. Fontos, hogy ezek NEM a DMA paraméterei._
-<Hely a válasznak>
+
+A blokkos atvitel lepesei:
+
+- CPU felparameterezi es elinditja a DMA-t
+- DMA buszhasznalatot ker (DMA request)
+- CPU lemond a buszrol (DMA ack)
+- DMA adatot ker a periferiatol az I/O DR-be (data register)
+- DMA adatit ír a memoriaba az I/O AR (address register) altal meghatarizitt memoria cimre
+- DC-- (data counter), cim++ ismetles vagy megszakitas kuldese
 
 ---
 
 **51. Írja fel a DMA paramétereit!**
 _(Gyakoriság: kevésbé ritka)_
 _Megjegyzés: Nem összetévesztendő a blokkos átvitel folyamatával._
-<Hely a válasznak>
+
+DMA jellemzok:
+
+- nagy adatmennyiseg -> blokkos atvitel
+- csak gyors periferiaknal hasznaljak
+- CPU nem mozgat adatot
+
+Feltetelei:
+
+- Kozvetlen memoria-cimgeneralas
+- Buszvezerlesi funkciok
+- DMA vezerlo jelenlete
+
+Regiszterei:
+
+- DC - Data counter
+- I/O cimregiszter - I/O AR
+- I/O adatregiszter - I/O DR
+- Belso transzparens regiszterek
+
+DMA parameterei:
+A felparameterezest a cpu vegzi, a programozott I/O-n keresztul tortenik
+
+- Atvitel iranya (R/W)
+- I/O egyseg cime
+- Memoria kezdocim (I/O AR)
+- Adat tipusa (byte, char, string)
+- Atvivendo egysegek szama (DC)
+- Atvitel modja (blokkos / cikluslopasos)
+- DMA csatorna prioritasa
+- Resztvevo egysegek tipusa (I/O-memoria, memoria-memoria, I/O-I/O)
 
 ---
 
-**52. Sorolja fel a feltételes nélküli adatátvitel előfeltételeit! (I/O rendszer)**
+**52. Sorolja fel a feltétel nélküli adatátvitel előfeltételeit! (I/O rendszer)**
 _(Gyakoriság: gyakori)_
-<Hely a válasznak>
+
+Az adatatvitel ellenorzes es visszacsatolas nelkul tortenik
+
+Elofeltetelei:
+
+- Preiferianak mindig adatatvitelre alkalmas allapotban kell lennie
+- Nincs ellenorzes
+- Semmilyen szinkronizalas nincs a CPU es periferia kozott
 
 ---
 
 **53. Rajzolja fel az I/O felosztását, előnyök hátrányok.**
 _(Gyakoriság: kevésbé ritka)_
 _Megjegyzés: Ez is ágrajz, nem tudom, hogy ezt mennyire kéri és hogy pontosan mit lehet írni előnyökhöz, hátrányokhoz._
-<Hely a válasznak>
+
+- I/O rendszer
+
+  - Programozott I/O ==> elonyok: egyszeru felepites, olcso megvalositas, konnyen programozhato
+    - cimzes
+      - kulonallo I/O cimter
+      - Memoriaban lekepzett I/O
+    - mukodes
+      - Lekerdezes I/O
+      - Megszakitasos I/O
+  - DMA
+    - Blokkos
+    - Cikluslopasos
+  - I/O csatorna
+    - Szelektor csatorna
+    - Multiplexer csatorna
+
+- Programozott I/O
+  - elonyok: egyszeru felepites, olcso megvalositas, konnyen programozhato
+  - hatranyok: lassu, erosen terheli a CPU-t, nagy adatmennyisegnel nem hatekony
+- DMA
+  - elonyok: a cpu csak megcimzi es utana foglalkozhat massal a dma dolgozik a hatterben
+  - hatranyok: dragabb es komplexebb
+- I/O csatorna
+  - elonyok: a lassabb periferiakat is tudja kezelni ugy mintha egy dma lenne
+  - hatranyok: a cpunak az elejen foglalkozni kell vele
 
 ---
 
 **54. Ismertesse az programozott I/O tulajdonságait, adatátviteli módjait! (feltétel nélküli adatátvitel, feltételes adatátvitel: lekérdezéses, megszakításos)**
 _(Gyakoriság: új)_
 _Megjegyzés: Első felbukkanás: 2025. 12. 16. (2025/26/1 1. vizsga)_
-<Hely a válasznak>
+
+Olyan adatatviteli modszer ahol a CPU kozvetlenul iranyitja az I/O muveletet. Elinditja, vezeri, figyeli az allapototo es lezarja az adatatvitelt
+
+Jellemzok:
+
+- CPU vezerelt adatatvitel
+- Lekerdezeses vagy megszakitasos vezerles
+- kozos buszhasznalat a memoria es az IO kozott
+- Egyszeru hardveres megvalositas
+- Jelentos cpu idot igenyel
+
+ELonyok:
+
+- egyszeru felepites
+- olcso megvalositas
+- konnyen programozhato
+
+Hatranyok
+
+- lassu, erosen terheli a CPU-t
+- nagy adatmennyisegnel nem hatekony
+
+Adatatviteli modok:
+
+- Feltetel nelkuli adatatvitel
+  - Az adatatvitel ellenorzes es visszacsatolas nelkul tortenik
+  - periferianak mindig adatatvitelre kepes allapotban kell lennie
+  - nincs ellenorzes
+  - semmilyen szinkronizalas nincs a cpu es a periferia kozott
+- felteteles adatatvitel
+  - Lekerdezeses
+    - A CPU folyamat olvassa az allapot regisztert amig az eszkoz keszen nem all. Beirja a kivansagat az I/O vezerlobe es varja a valaszt.
+    - Aktivan varakozik, nem ismert varakozasi ido
+    - Rendkivul pazarlo, lassu periferiahoz kulonosen rossz
+  - Megszakitasos
+    - A CPU elinditj az I/O muveletet, majd mas feladatot vegez. A periferia megszakitassal jelez ha kesz
+    - elony: a CPU kihasznaltsag jobb, gyorsabb mint a lekerdezeses
+    - hatrany: nagy mennyisegu adat eseten sok megszakitas, meg mindig a CPU kezdemenyezi es vezerli az atvitelt
 
 ---
 
 **55. Milyen típusai vannak az I/O csatornának? Jellemezze ezeket!**
 _(Gyakoriság: kihalt)_
 _Megjegyzés: Elméletben kérheti a szelektor csatornát és multiplexer csatornát, azok jellemzőit, gyakorlatban sose kérte eddig._
-<Hely a válasznak>
+
+DMA tovabbfejlesztese lassabb periferiakhoz. A CPU nem parameterez hanem a memoriaban tarolt I/O programot indit el amelyez az I/O csatorna hajt vegre. Nincs felparameterezes, onallo vezerloegyseg
+
+Szelektor csatorna
+lassabb periferiak kozul a gyorsabbakhozá
+
+- egyetlen I/O vonal, amire tobb I/O vezerlo is racsatlakozhat
+- egyszerre csak 1 aktiv
+- elony: gyors atvitel
+- hatrany: nincs parhuzamossag
+
+Multiplexer csatorna
+lassu periferiak kozul is a lassabbhoz -> parhuzamos kezeles
+
+- Byte multiplexer: byteonkenti adatkuldes
+- Blokk multiplexer: blokkonkenti adatkuldes
 
 ---
 
@@ -471,7 +891,8 @@ _Megjegyzés: Nem nagyon láttam még kérdésben, de lehet volt._
 **57. Mi a megszakítás definíciója, célja?**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Definíció, célok, általában másik kérdésekkel szokott szerepelni._
-<Hely a válasznak>
+
+Definicioja: A feldolgozas szempontjabol varatlannak tekingheto esemenyek kezelesere szolgalo muvelet
 
 ---
 
