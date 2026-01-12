@@ -514,45 +514,146 @@ A huzalozott vezerloegysegek gyorsabbak mivel minden egy alaplapon van elektroni
 **38. Hogyan lehet csoportosítani a memóriákat?**
 _(Gyakoriság: ritka)_
 _Megjegyzés: Itt az ágrajzra gondol, gyakorlatban sosem láttam ezt a kérdést. Szóval lehet, hogy kihalt, vagy nem is volt._
-<Hely a válasznak>
+
+A felvezeto memoriak, nagysagrendekkel gyorsabbak a hattertaraknal, ezert kozvetlen a CPU-t szolgaljak ki.
+
+1. RAM (Random Access Memory) - Írható, olvashato, nem maradando
+
+- SRAM - statikus
+- DRAM - dinamikus
+
+2. ROM (Read Only Memory) - csak olvashato, maradando
+
+- BIOS
+- POST tesztek
+- Eszközspecifikus adatok (MAC cim)
+
+3. CMOS - specialis elemrol taplalt memoria
+
+- BIOS beallitasok es valos idejo ora
+  - kikapcsolt allapotban is megorzi az adatokat
+  - nagyon alacsony fogyasztas
 
 ---
 
 **39. Jellemezze a DDR4-et! Milyen újdonságok vannak a DDR3-hoz képest?**
 _(Gyakoriság: gyakori)_
-<Hely a válasznak>
+
+- A DDR3-hoz képes csokkent a tapfeszultseg 1.5 V -> 1.2 V: kisebb hotermeles, jobb energiahatekonysag
+- 8N prefetch eljaras
+  - alacsonyabb orafekvencia meghajtas -> alacsonyabb energiafogyasztas
+  - Kulso adatatviteli frekvencia novelheto -> savszelesseg megno
+  - Nagyobb kesleltetes, mint DDR3 eseten ugyanazon orafrekvencia mellett
+  - Bankok: 16 csoportositva (4 csoport x 4 bank) => DDR3 8 kulonallo bank chipenkent
+    - vezerles egyszerre 2-4 bankot valaszthat ki
+    - idoosztasos multiplexeles elven
+
+Megbizhatosag javitasa
+
+- ECC mellett CRC (Cycnlic Redundancy Check)
+- Chipenkent extra paritas => bitcsoport osszeget vizsgalja (paros vagy paratlan)
+- ODT: ON-Die Termination es feszultsegszabalyozas => memoriachipbe epitett ellenallas ami elnyeli a visszaverodo jeleket.
+- Gear Down Mode: Csokkenti a prefetch erteket ha szukseges
+
+DDR4 288 DIMM pin > DDR3 240 DIMM pin
 
 ---
 
 **40. Ismertesse a DDR4 memóriánál tanult 8n prefetch eljárást!**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Lehet együtt a DDR4-el, de szokott külön is szerepelni._
-<Hely a válasznak>
+
+A DRAM cellak nem kepesek a kulso adatbusz sebessegevel mukodni. Ezért kell a prefetch algoritmus
+
+Prefetch lenyege:
+
+- A memoria belso magja egyszerre tobb bitet olvas ki
+- Ezek egy belso pufferbe kerulnek
+- A kulso busz tobb lepesben tovabbitja az adatokat
+
+Kovetkezmeny:
+
+- A belso busz szelesebb mint a kulso (2N, 4N, 8N, 16N)
+- Ez noveli a ciklusban mert kesleltetest, de noveli a saveszelesseget
+
+A ddr4-ben egyszerre 8 adatot olvas ki a memoriachippekbol es ezt viszi tovabb aprankent a busz.
 
 ---
 
 **41. Jellemezze a DDR5-öt! Milyen újdonságai vannak a DDR4-hez képest?**
 _(Gyakoriság: gyakori)_
-<Hely a válasznak>
+
+Fo fejlesztesek: savszelesseg, parhuzamositas es megbizhatosag novelese.
+Tapfeszultseg 1.1 V -> meg alacsonyabb energiafogyasztas
+
+- 16N prefetch eljaras
+- Nagyobb savszelesseg: magasabb kulso frekvencia
+- Nagyobb kesleltetes, mint DDR4 eseten
+- 32 bank csoportositva (8 csoport x 4 bank)
+- Modulonkent 2 csatorna (32 bit)
+- On-Die ECC memoria chipbe integralva -> chip szintu hibajavitas
+- Operacionkent 64 Byte adat tovabbitasa
+- Akár 12 NYÁK réteg
 
 ---
 
 **42. Írja fel az SDRAM időzítési paramétereit, jellemezze is ezeket egy-egy mondattal!**
 _(Gyakoriság: kevésbé ritka)_
 _Megjegyzés: Ez inkább a későbbi vizsgákon szokott előfordulni. Elvileg Bprofosoktól nem kéri, gyakorlatban pedig hiszem, ha látom, mert eddig is kérte._
-<Hely a válasznak>
+
+- tCL (CAS Latency) - varakozas az oszlopcim kiadasa utan az elso adat megjeleneseig
+- tRCD (RAS to CAS delay) - sor megnyitasa es az oszlopcim kivalasztasi parancs kozott
+- tRAS (Row Active Time) - minimalis ido amig egy sor nyitva kell maradjon
+- tRP (Row Precharge) - varakozasi ido egy sor lezarasa utan uj sor nyitasaig
+- tRC (Row Cycle Time) - minimalis ido ket azonos bankbeli sor aktivalasa kozott
+
+Olvasasi ciklus menete:
+
+1. Bank (sor) megnyitasa
+2. Oszlopadatok olvasasa a megnyitott sorbol
+3. Bank lezarasa (precharge)
+4. Legalabb tRP varakozas ujra nyitas elott
 
 ---
 
 **43. Írja le a DRAM teljes olvasási ciklusának lépéseit!**
 _(Gyakoriság: kihalt)_
-<Hely a válasznak>
+
+Olvasasi ciklus menete:
+
+1. Bank (sor) megnyitasa
+2. Oszlopadatok olvasasa a megnyitott sorbol
+3. Bank lezarasa (precharge)
+4. Legalabb tRP varakozas ujra nyitas elott
 
 ---
 
 **44. Jellemezze a DIMM-et! Mi a Registered, ECC, PLL DIMM?**
 _(Gyakoriság: gyakori)_
-<Hely a válasznak>
+
+DIMM -> DUal Inline Memory Module. DRAM chipeket tartalmazo memoria modul, tipikusan 64 bites adatuttal 168-288 erintkezovel.
+
+Registered DIMM
+
+- A memoriachip es a memoriavezerlo koze regiszter kerul
+- Csokkenti az elektromos terhelest a vezerlon
+- Egy orajelnyi kesleltetest okoz
+- Nagyobb stabilitas sok modul eseten
+
+ECC DIMM
+
+- Extra DRAM chip az ECC/paritas bitekhez
+- Paritásbit: egybites hiba felismerese, javitani nem tud. Tobszoros hibat sem tudja konzisztensen felfedezni
+- ECC bit
+  - Egybites hiba felfedezese es javitasa
+  - Tobb egymas mellett bithiba felismerese es javitasa
+  - Kijavitatlan hiba eseten rendszerleallitas es naplozas
+
+PLL (Phase Locked Loop)
+
+- Fáziszért hurok: órajel elcsuszas mentesitese
+- Orajel szinkronizalas
+- Stabilabb, pontosabb mukodes nagy frekvencian
 
 ---
 
@@ -884,7 +985,22 @@ lassu periferiak kozul is a lassabbhoz -> parhuzamos kezeles
 **56. Mutassa be az általános megszakítás ábráját!**
 _(Gyakoriság: kihalt?)_
 _Megjegyzés: Nem nagyon láttam még kérdésben, de lehet volt._
-<Hely a válasznak>
+
+1. utasítas vegrehajtas
+
+- erkezett megszakitas?
+  - Igen
+    - Elfogadhato?
+      - Igen
+        - Analizis
+        - Allapot mentese
+        - Megszakitas kiszolgalasa
+        - Allapot visszatoltese
+        - Kovetkezo utasitas
+      - Nem
+        - Kovetkezo utasitas
+  - Nem
+    - kovetkezo utasitas
 
 ---
 
@@ -894,33 +1010,124 @@ _Megjegyzés: Definíció, célok, általában másik kérdésekkel szokott szer
 
 Definicioja: A feldolgozas szempontjabol varatlannak tekingheto esemenyek kezelesere szolgalo muvelet
 
+Celja: Nem csak a reagalas hanem a folyamatosan valtozo korulmenyek kozott az optimalis mukodes biztositasa
+
+Lényege: Csak akkor foglalja le a CPU figyelmet amikor arra tenyleg szukseg van.
+
 ---
 
 **58. Milyen megszakítási okok, források vannak?**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Ez szokott szerepelni az előzővel. Elvileg itt fontos a sorrend (mert prioritási sorrend van)._
-<Hely a válasznak>
+
+1. Géphibák
+
+- nem letilthato, legmagasabb prioritas, nem kesleltetheto
+
+2. I/O források
+
+- perfieriak jelzik
+
+3. Kulso forrasok
+
+- felhasznalo vagy kulso rendszer
+
+4. Programozasi forrasok
+
+- szandekos: amikor egy program megszakitast ker
+- nem szandekos (hibakezeles): mindig valamilyen utasitas vegrehajtasa vagy a vegrehajtas megkiserlese soran alakul ki
+  1. memoriavedelem megsertese
+  2. fizikai cim tulcimzese
+  3. cimzesi eloirasok megsertese
+  4. aritmetikai hibak
 
 ---
 
 **59. Hogyan lehet csoportosítani a megszakításokat?**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Itt nem kell annyira mélyre menni, ez is szokott szerepelni az előzőkkel._
-<Hely a válasznak>
+
+- Szinkron vs aszinkron
+  - szinkron: program mindig ugyan ott jelentkezik megszakitassal
+  - aszinkron: veletlenszeruen lepnek fel
+- Utasitasok kozott vagy kozben
+  - Kozott: Utasitas vegrehajtasanak eredmenyekepp kovetkezik be (overflow)
+  - Kozben: Utasitas vegrehajtasa alatt, nincs szinkronban a ciklussal (hardverhiba)
+- Felhasznalo altal kert vs nem kert
+  - kert: rendszerhivasokk. OS rutinok, BIOS rutinok
+  - nem kert: overflow, I/O egyseg altal kert, hardverhiba
+- Megszakitott program folytathato vs nem folytathato
+  - folytathato: I/O megszakitas
+  - nem folytathato: hardverhiba
+- Maszkolhato vs nem maszkolhato:
+  - maszkolhato: le lehet tiltani, prioritas alapjan nem lep ervenybe
+  - nem maszkolhato: sulyos hardverhiba
 
 ---
 
 **60. Mikor érvényes a megszakítás?**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: 3 feltétel, szokott szerepelni az előzőkkel._
-<Hely a válasznak>
+
+- Az aktualis folyamat megszakithato
+- a megszakitas prioritasa megfelelo
+- A megszakitas nincs maszkolva
 
 ---
 
 **61. Milyen megszakítási rendszerek vannak?**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Egyszintű, többszintű, többszintű és többvonalú. Kis magyarázat és rajz is szokott kelleni._
-<Hely a válasznak>
+
+- egyszintu megszakitasi rendszer
+
+  - nem megszakithato
+  - uj megszakitas csak a normal allapotba valo visszateres utan kezdodhet
+
+  ```
+  megszakitasi szint
+  ----------------------|--------------|--------------|--------------|
+                        |              |              |              |
+  futo folyamat         |              |              |              |
+  ----------------------|      2       |      1       |      3       |
+                        |              |              |              |
+                        |              |              |              |
+  ----------------------|       |      |              |              |
+  erkezo megszakitas    2,3     1
+  ```
+
+- tobbszintu megszakitasi rendszer
+
+  - megszakitasok megszakithatjak egymast
+  - vegrehajtas fontossagi sorrendben
+  - hatrany, ha tul sok megszakitas van -> nem lehet mindegyikhez kiulon prioritasi szintet rendelni
+
+  ```
+    1
+    -----------------------------|-------|--------------|
+                                |       |              |
+    2                            |   1   |              |
+    -----------------------------|-------|---|----------|
+                          |                  |          |
+    3                     |                  |          |
+    ----------------------|      2           |----------|
+                          |                  |          |
+    futo folyamat         |                  |    3     |
+    ----------------------|       |          |          |
+    erkezo megszakitas    2,3     1
+  ```
+
+- tobbszintu, tobbvonalo megszakitasi rendszer
+  - megszakitasi okokat osztalyokba soroljak
+  - minden osztalyhoz prioritasi szint tartozik
+    - osztalyok: 1, 2, 3
+    - Prioritasok: 1, 2, 3
+  - osztalyon belul:
+    - megszakitasi tipusok: a, b, c, d
+  - mukodes:
+    - osztalyok kozott: tobbszintu
+    - osztalyon belul: egyszintu
+    - osztalyon belul is leteznek prioritasok
 
 ---
 
@@ -928,26 +1135,121 @@ _Megjegyzés: Egyszintű, többszintű, többszintű és többvonalú. Kis magya
 
 **62. Sorolja fel a tranzisztorok fajtáit, melyik mit tud?**
 _(Gyakoriság: kevésbé ritka)_
-_Megjegyzés: nMosFET, feszített szilícium, HKMG, FinFET, GAAFET, MCBFET. Mindegyikhez 1-1 mondat, illetve mi az előny az előzőhöz képest._
-<Hely a válasznak>
+_Megjegyzés: nMosFET, feszített szilícium, HKMG, FinFET, GAAFET, MBCFET. Mindegyikhez 1-1 mondat, illetve mi az előny az előzőhöz képest._
+
+A trenzisztor egy felvezeto alapu aktiv elem, amelyet digitalis aramkorokben leggyakrabban kapcsolokent hasznalunk.
+
+- Source (forrás): Az a terulet ahonnan a tolteshordozok elindulnak
+- Drain (nyelő): Az a terulet ahova a tolteshordozok erkeznek
+- Gate (kapu): A vezerlo elektroda amely a csatorna vezetokepesseget szabalyozza
+
+Legfontosabb meretek:
+
+- Pitch: A tranzisztor teljes szelessege
+- Gate length
+  - Elmeleti hossz: A kapu fizikai szelessege a gyartasi terv szerint
+  - Fizikai hossz: A tenlyeges csatorna hossz a source es a drain kozott.
+
+Fajták:
+
+nMOSFET (Metal-Oxide-Semiconductor Field-Effect Transistor)
+
+- Substrate: p-tipusu szilicium lapka
+- Source/Drain: erosen doppingolt negativ szigetek
+- Szigetelo (Oxid): egy vekony szilicium-dioxid
+- Mukodese
+  - Kikapcsolt allapot: alaphelyzetben a p-tipusu hordozoban nincs elegendo szabad elektron igy nem folyik aram
+  - Bekapcsolas: a kapu pozitiv feszultseget kap es ez elektromos teret hoz letre
+  - Csatorna kialakulasa: Ez a ter eltaszitja a pozitiv lyukakat es oda vonzza az elektronokat a kapu ala.
+
+Feszített szilícium technologia
+
+- Megfelelő gyártási eljárással a szilícium atomok kozotti tavolsagot megnovelik
+- Előnye: np az elektronok és a lyukak mozgékonysága ami 10%-20%-os teljesítmenyjavulast eredmenyez
+- Hatranya: Tobb lepesbol all a gyartasi folyamat igy az ara is
+
+HKMG
+A problema hogy a tranzisztorok zsugorodtak a Sziliciom-oxid is vekony lett => szivargas jott letre
+
+- Megoldás: lecserélik egy High-k (nagy dielektromos állandójú) anyagra és fémkapura
+  - Csökkent a bekapcsoláshoz szükséges áram
+  - Gyorsabban lehet a tranzisztort kapcsolni
+  - Csökkent a szivargas.
+
+FinFET
+Eddig a Source es a Drain kozotti hidat a kapu alatt alakitottak ki. 2D
+
+A FinFET-nél ez már 3D-s struktura ahol van egy fesu fog amelyet a kapu 3 oldalrol vesz korbe. Igy ha a kapu kinyilik akkor a hid sokkal nagyobb feluleten tud kialakulni.
+
+Ezt kesobb noveltek, ugy hogy tobb fesufogat is osszekapcsoltak
+
+A 2. generacios FinFET pedig a fesu magassagaval es a suruseg javitsavala ismet tovabb gyorsult es hatekonyabb lett.
+
+GAAFET
+Tobb aramlasi reteg van kis szalagokban. Ezt veszi korbe a gate es igy mikor megengedjuk az aramlast akkor 4 iranybol tud aramolni az elektron. (nanowire)
+
+MBCFET
+A lapok szelessege valtoztathato igy mar nem nanowire lesz hanem inkabb nanosheet. Nagyobb aramerosseget es jobb teljesitmenyt lehet elerni ugyan azon a feszultsegen
 
 ---
 
 **63. Rajzolja fel és mutassa be az nMOSFET tranzisztort!**
 _(Gyakoriság: gyakori)_
-<Hely a válasznak>
+
+Az nMOSFET tranzisztor áll egy Source és Drainből, amik erősen doppingolt negatív szigetek a p-tipusu substratetol. Es van egy szigetelo oxid ami szilicium oxid es ez a reteg valasztja el a kaput a substratetol
+
+```
+             gate
+        _______________
+       -----------------
+       |     oxide     |
+|-------------------------------
+|source|               | drain |
+|-------               ---------
+|           substrate          |
+|------------------------------|
+```
 
 ---
 
 **64. Rajzolja fel és mutassa be a HKMG tranzisztort!**
 _(Gyakoriság: gyakori)_
-<Hely a válasznak>
+
+Ahogy zsugorodtak a tranzisztorok a szilicium-oxid szigetelo mar tul vekony lett igy gyakran szivargas alakult ki. Ezt a reteget lecsereltek egy High (nagy dioelektromos allandoju) anyagra es femkapura
+
+- Csokkent a bekapcsolashoz szukseges aram
+- gyorsabban lehet a tranzisztort kapcsolni
+- gyokkent a szivargas az oxid es a source-drain kozott
+
+```
+    -----------------------
+    | low resistance layer|
+    -----------------------
+    |    metal gate       |
+    -----------------------
+    |  HIGH-k gate oxid   |
+|-------------------------------
+|source|               | drain |
+|-------               ---------
+|    Silicon substrate         |
+|------------------------------|
+```
 
 ---
 
 **65. Rajzolja fel és mutassa be a 3D FinFET tranzisztort!**
 _(Gyakoriság: gyakori)_
-<Hely a válasznak>
+
+FinFET
+Eddig a Source es a Drain kozotti hidat a kapu alatt alakitottak ki. 2D
+
+A FinFET-nél ez már 3D-s struktura ahol van egy fesu fog amelyet a kapu 3 oldalrol vesz korbe. Igy ha a kapu kinyilik akkor a hid sokkal nagyobb feluleten tud kialakulni.
+
+Ezt kesobb noveltek, ugy hogy tobb fesufogat is osszekapcsoltak
+
+A 2. generacios FinFET pedig a fesu magassagaval es a suruseg javitsavala ismet tovabb gyorsult es hatekonyabb lett.
+
+3d-be mar nem tudok rajzolni .md fajlba :D
 
 ---
 
@@ -956,49 +1258,169 @@ _(Gyakoriság: gyakori)_
 **66. Sorolja fel a cache típusait, és ismertesse ezeket! (aszerint hogy a blokkok hova kerülnek)**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Full associative, direct mapping, N-way associative, mindegyikhez 1-1 mondat, előny, hátrány. Szokott külön lenni az N-way associative (mert az a legjobb)._
-<Hely a válasznak>
+
+- Full associative
+  - egy memoriablokk barmely cache sorba kerulhet
+  - elhelyezes sorat a helyettesitesi strategia hatarozza meg
+  - kereseskor a cpu a tageket vizsgalja minden sorban egyszerre, mivel az adat barhol lehet
+  - nagy talalalti arany es rugalmassag
+  - draga, bonyolult, nagy fogyasztas
+- direct mapping
+  - egy memoriablokk csak egy adott cache lineba kerulhet
+  - egy cache linehoz tobb memoria blokk hozza van rendelve, elofordulhat, hogy gyakran cserelni kell a cache tartalmat
+  - elony, gyors es olcso
+  - hatrany, rugalmatlan, alacsonyabb talalati aran
+- n-way associative
+
+  - Kompromisszum az elozo ketto kozott
+
+    - egy blokk N kulonbozo cache lineba kerulhet
+    - N tipikusan 2, 4, 8, 16
+    - Kevesebb osszehasonlito aramkor szukseges
+    - Jo talalati arany es elfogadhato koltseg
+
+    Pl.: 4 utas eseten egy blokk 4 cache lineba kerulhet -> CPU csoport index alapjan 4 darab cache line-ra tudja szukiteni a keresest igy eleg 4 osszehasonlito aramkor
+
+- sector mapping cache
+  - A csoport barhova kerulhet, viszont a blokknak a helye a csoporton belul kotott
 
 ---
 
 **67. Röviden ismertesse a cache-eknél tanult két legfontosabb vezérlő bitet!**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Dirty bit, Valid bit._
-<Hely a válasznak>
+
+- Dirty bit: jelzi, hogy az adat modosult-e
+  - az ilyen blokk helyere nem lehet uj adatot betolteni
+  - elobb a modositott adatokat ki kell irni a memoriaba
+- Valid bit: jelzi, hogy a cache sor vagy blokk ervenyes-e
+  - Ha V=1 akkor ervenyes az adat
+  - Torles utan V=0, ezzel jelzi a CPU-nak, hogy szabadon irhato terulet
 
 ---
 
 **68. Mi az a "TAG" és mire való?**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Más kérdésekkel szokott együtt lenni._
-<Hely a válasznak>
+
+A cache-ben a memoria egyes, egymast koveto rekeszeinek a tartalmat taroljuk. Ezek melle el kell tarolni az adatok memoria cimet is.
+
+TAG: memoriacim cache-ben tarolt resze
+A TAG alapjan dontheto el, hogy a keresett adat az adott cache sorban talalhato-e
+
+A TAG szarmazhat
+
+- fizikai cimbol (cache az MMU utan)
+- virtualis cimbol (cache az MMU elott)
+
+Virtualis TAG hatranya
+
+- nagyobb TAG meret, mert a virtualis cimter is nagyobb
+- Virtualzaciobol adodo helyettesitesek kezelese (-> ugyan az a virtualis cim mutathat tobb kulonbozo fizikai cimre attol fuggoen melyik folyamat fut eppen)
+
+Virtualis TAG elonye: kisebb cache miss kesleltetes
+
+Cache hit: a keresett adat a cache-ben megtalalhato => gyorsan elerheto
+Cache miss: a keresett adat nincs a cache-ben => RAM-ból olvas - lassu, az adat betoltodik a regiszterbe es a CACHE-be is.
 
 ---
 
 **69. Mi az a "cache line", miből épül fel?**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Felsorolás, rajz._
-<Hely a válasznak>
+
+64 byte-os cache line eseten a felepites:
+
+- Directory Entry: TAG es egyeb allapotjelzok
+- Tprot: TAG protection bitek => biztositjak a tag egyezoseget elirasok ellen
+- Dprot: Data protection bitek => biztositjak az adat egyezoseget elirasok ellen
+- State: allapot bitek (V bit, D bit)
+- Data: az adat
+
+```
+
+---
+
+## |TAG|Tprot|Dprot|State|Data |
+
+```
 
 ---
 
 **70. Milyen adatszervezési módokat ismer?**
 _(Gyakoriság: kevésbé ritka)_
 _Megjegyzés: Nem nagyon láttam eddig, de simán kérdezheti._
-<Hely a válasznak>
+
+- Exclusive cache
+  - cache szintek nem tartalmazzak egymas adatait
+  - ugyanaz az adat csak egy szinten jelenhet meg
+  - tobb CPU vagy mag eseten komplikalt
+  - Adatok betoltese ketfelekeppen tortenhet:
+    - Eloszor L3-ba ls ha szukseges akkor onnan L2-be, L1-be
+    - Eloszor L1-be, majd ami nem fer be L2-be, ami oda se az L3-ba
+- Inclusive cache
+  - magasabb szintu cache tartalmazhatja az alacsonyabb szint adatait
+  - Hatrany: duplikacio es csokken az alacsonyabb szintu cache merete
+  - Elonye:
+    - Magasabb szintu cache sora szabadon cserelheto, mert alacsonyabban is megtalalhato az adat
+    - Tobb mag eseten, masik mag cacheben kell keresni akkor duplikalas miatt eleg az alacsony szintuben
+
+Megjegyzés: tobb magos CPU eseten L1, L2 gyakran inclusive, L3 nem
 
 ---
 
 **71. Milyen replacement policy-k vannak?**
 _(Gyakoriság: kevésbé ritka)_
 _Megjegyzés: Ez a FIFO, LIFO, LFU, LRU, ez is inkább más kérdéssel szerepel együtt._
-<Hely a válasznak>
+
+Állapot: cache tele van
+
+Fobb tipusok:
+
+- FIFO: legregebben betoltott blokk
+- LIFO: legutobb betoltott blokk
+- LFU: legritkabban hasznalt blokk
+- LRU: legregebben hasznalt blokk
 
 ---
 
 **72. Mi az a koherencia kezelés, ismertesse a MESI koherencia kezelést!**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Lehet a MOESI is. A többit is fel kell tudni sorolni, csak nem kell részletesen ismertetni._
-<Hely a válasznak>
+
+Tobb CPU-s vagy tobbmagos rendszerek eseteben figyelni kell arra hogy egyes CPU-k (vagy magok) gyorsitotaraban megegyezo adatok legyenek.
+Cel, hogy a modositott adat a leheto leggyorsabban bekeruljon az osszes processzor gyorsitotaraba, mielott a tobbi esetletgesen muveletet vegezne rajta
+
+Adatervenyesites modja:
+
+- invalidacio: az erintett cache line ervenytelenitese (V bit = 0)
+- Feluliras: a modositott adat kozvetlen elkuldese a tobbi cachebe
+
+Cache koherencia protokollok
+
+- Snoopy -> minden cache figyeli a kozos buszt
+- Snorf -> snoopy egy variansa
+- Konyvtar alapu -> kozponti nyilvatartas kezeli mely cache-ek tartalmazzak az adatot
+- MESI
+- MOESI
+
+MESI
+
+- M - Modified: az adat modosult csak ez a tar valid a tobbi invalid
+- E - Exclusive: az adat megegyezik a memoriaval, csak ebben a cache-ben van
+- S - Shared: az adat tobb cache-ben is megtalalhato es egyezik a memoriaval
+- I - Invalid: a cache line ervenytelen, nem tartalmaz hasznalhato adatot
+
+MOESI
+
+(- M - Modified: az adat modosult csak ez a tar valid a tobbi invalid)
+
+- O - Owned: A modosult es megosztott allapotot helyettesiti. Egyetlen cache tulajdonaban van, ezzel elkerulheto, hogy vissza keljen irni a memoriaba megosztas elott.
+  Elony: a modositott adat kozvetlenul atadhato egyik cachebol a masikba.
+
+- E - Exclusive: az adat megegyezik a memoriaval, csak ebben a cache-ben van
+  (- S - Shared: az adat tobb cache-ben is megtalalhato es egyezik a memoriaval)
+- I - Invalid: a cache line ervenytelen, nem tartalmaz hasznalhato adatot
 
 ---
 
@@ -1007,277 +1429,718 @@ _Megjegyzés: Lehet a MOESI is. A többit is fel kell tudni sorolni, csak nem ke
 **73. Párhuzamosság szintjei (funkcionális), típusai felsorolás, kik/mik törekednek a számítások felgyorsítása érdekében.**
 _(Gyakoriság: ritka)_
 _Megjegyzés: Szerintem ilyen mélyen már nem fogja ezt kérdezni._
-<Hely a válasznak>
+
+Párhuzamosság típusai
+
+- Funkcio szerint
+
+  - Rendelkezesre allo parhuzamossag: Magaban a feladatban vagy a programkodban rejlo elvi lehetoseg, fuggetlen a konkret hardvertol
+  - Kihasznalhato parhuzamossag: amit az adott architektura a vegrehajtas soran tenylegesen kepes megvalositani
+
+- Elhelyezkedes szerint
+
+  - Idobeli parhuzamossag: tobb vegrehajto egyseg mukodik idoben elcsusztatva (futoszallag/pipeline), jellemzeon nem ugyan azon a reszfeladaton
+
+  ```
+  -> VE1 -> VE2 -> VE3
+  ```
+
+  - Terbeli parhuzamossag: Tobb azonos tipusu vegrehajto egyseg egy idoben ugyan azt a muvelettipust vegzi
+
+  ```
+   -> VE1 ->
+   -> VE2 ->
+   -> VE2 ->
+  ```
+
+- Tipus szerint
+  - Adatparhuzamossag
+    - Adatparhuzamos architekturak
+      - Adat-elemeken parhuzamos vagy futoszallag elvi vegrehajtast teszik lehetovet
+    - Atalakitas funkcionalis parhuzamossagga
+      - Adat elemeken vegrehajthato muveletek ciklusok formajaban torteno megfogalmazasa
+  - Funkcionalis parhuzamossag
+    - A feladat logikajabol kovetkezo parhuzamossag. Kulonbozo muveletek fuggetlenul vegezhetok
+
+Funkcionalis programozas szintjei
+
+- Utasitas szint: Programutasitasok parhuzamos vegrehajtasa
+- Ciklus szint: Egymast koveto iteraciok parhuzamositasa (fuggosegek akadalyozhatjak)
+- Eljaras szint: Parhuzamosan vegrehajthato eljarasok formajaban jelenik meg, merteke a feladat jellegetol fugg
+- Program szint: Egymastol fuggetlen programok parhuzamos futtatasa
+- Felhasznalo szint: tobb fuggelten felhasznalo egyideju kiszolgalasa
+
+Parhuzamossagra torekedes:
+
+- Programozo: Ugy irja meg a kodot hogy parhuzamosithato legyen
+- Forditoprogram: Elemzi a kodot es megprobalja az utasitasokat atrendezni, vagy optimalizalni a ciklusokat
+- Operacios rendszer: Menedzseli a szalakat es a folyamatokat, es osztja el oket a CPU magok kozott
 
 ---
 
 **74. Hogyan csoportosítható a párhuzamosság?**
 _(Gyakoriság: ritka)_
-<Hely a válasznak>
+
+- Funkcio szerint
+
+  - Rendelkezesre allo parhuzamossag: Magaban a feladatban vagy a programkodban rejlo elvi lehetoseg, fuggetlen a konkret hardvertol
+  - Kihasznalhato parhuzamossag: amit az adott architektura a vegrehajtas soran tenylegesen kepes megvalositani
+
+- Elhelyezkedes szerint
+
+  - Idobeli parhuzamossag: tobb vegrehajto egyseg mukodik idoben elcsusztatva (futoszallag/pipeline), jellemzeon nem ugyan azon a reszfeladaton
+
+  ```
+  -> VE1 -> VE2 -> VE3
+  ```
+
+  - Terbeli parhuzamossag: Tobb azonos tipusu vegrehajto egyseg egy idoben ugyan azt a muvelettipust vegzi
+
+  ```
+   -> VE1 ->
+   -> VE2 ->
+   -> VE2 ->
+  ```
+
+- Tipus szerint
+  - Adatparhuzamossag
+    - Adatparhuzamos architekturak
+      - Adat-elemeken parhuzamos vagy futoszallag elvi vegrehajtast teszik lehetovet
+    - Atalakitas funkcionalis parhuzamossagga
+      - Adat elemeken vegrehajthato muveletek ciklusok formajaban torteno megfogalmazasa
+  - Funkcionalis parhuzamossag
+    - A feladat logikajabol kovetkezo parhuzamossag. Kulonbozo muveletek fuggetlenul vegezhetok
 
 ---
 
 **75. Mi az a rendelkezésre álló párhuzamosság - [Szálak fontosak, gondolom a létrehozás] --> Programozó, OS, Párhuzamos fordító**
 _(Gyakoriság: ritka)_
 _Megjegyzés: Bprofon be se jelölte, hogy ez kellene._
-<Hely a válasznak>
+
+Utasitas szintu
+
+- parhuzamos architektura vagy megfelelo forditoprogram segitsegevel
+
+Ciklus vagy eljaras szintu: Szalak vagy folyamatok formajaban. Szal/folyamat a targykod legkisebb onalloan vegrehajthato resze. Letrehozhatja:
+
+- Programozo
+- Operacios rendszer
+- Parhuzamos fordito
+
+Program es felhasznaloi szint: Parhuzamos rendszerek, megfelelo hardver es szoftvertamogatassal
 
 ---
 
 **76. Mi a compiler, milyen feladatai vannak?**
 _(Gyakoriság: ritka)_
-<Hely a válasznak>
+
+Forditoprogram ami leforditja a magas szintu programnyelvben irt programot a processzor szamara ertheto formatumra. Kulcsszerepet jatszik a parhuzamossag kihasznalasaban
+
+1. Analizis: lexikalis (konstansok, valtozok, operatorok), szintaktikai es szemantikai elemzes
+2. Szintetizalas: Targykod generalasa es kodomptimalizalas, amely soran a fordito fuggetlen, parhuzamosan futtathato reszeket keres
 
 ---
 
 **77. Írja fel a párhuzamos architektúrák Flynn-féle és korszerű osztályozását!**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Táblázat (Flynn) + ágrajz (korszerű)._
-<Hely a válasznak>
-
----
-
 **78. Mi a Flynn-modell, milyen osztályai vannak (csak felsorolás)?**
 _(Gyakoriság: ritka)_
 _Megjegyzés: Előző szokott inkább lenni._
-<Hely a válasznak>
-
----
-
 **79. A Flynn-féle osztályozásban mit jelent a SIMD, mit lehet róla tudni?**
 _(Gyakoriság: ritka)_
 _Megjegyzés: Kettővel ezelőttivel lehet együtt._
-<Hely a válasznak>
+
+Négy fogalom
+
+- SI (Single instruction strem): Egyszeres utasitasfolyam, a gepnek egyetlen vezerloegysege van ami mondja mit kell tenni
+- MI (Multiple instruction stream): Tobbszoros utasitasfolyam, a gep egyszerre tobb kulonbozo utasitasfolyamot tud egy idoben vegrehajtani
+- SD (Single data stream): Egyszeres adatfolyam, egyszerre egy adaton vegzunk muveletet
+- MD (Multiple data stream): Tobszoros adatfolyam, egyszerre sok fuggetlen adaton dolgozik a gep
+
+- SISD (Single Input, Single Data): Neumann modell
+- SIMD (Single Input, Multiple Data): Multimedias feldolgozas
+- MISD (Multiple Input, Single Data): Elmeleti kategoria
+- MIMD (Multiple Input, Multiple Data): Teljes parhuzamos feldolgozas
+
+Modern osztalyozas
+
+- Funkcionalisan parhuzamos architekturak
+  - Utasitas szinten parhuzamos architekturak (ILP)
+    - Futoszallag
+    - VLIW
+    - Szuperskalar
+  - Szal szinten parhuzamos architekturak (SMT)
+  - Folyamat szinten parhuzamos architekturak
+    - ELosztott memoria hasznalato
+    - Kozos memoria hasznalatu
 
 ---
 
 **80. Milyen példákat ismer adatpárhuzamos architektúrákra? felsorolás ábra**
 _(Gyakoriság: ritka)_
 _Megjegyzés: Elvileg ezt már nem fogja tőlünk kérni, de ki tudja._
-<Hely a válasznak>
+
+NO ANSWER
 
 ---
 
 **81. Funkcionálisan párhuzamos architektúrák? felsorolás ábra**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Ez szokott lenni az "Írja fel a párhuzamos architektúrák Flynn-féle és korszerű…" kérdéssel._
-<Hely a válasznak>
+
+- Funkcionalisan parhuzamos architekturak
+  - Utasitas szinten parhuzamos architekturak (ILP)
+    - Futoszallag
+    - VLIW
+    - Szuperskalar
+  - Szal szinten parhuzamos architekturak (SMT)
+  - Folyamat szinten parhuzamos architekturak
+    - ELosztott memoria hasznalato
+    - Kozos memoria hasznalatu
 
 ---
 
 **82. Mik az ILP CPU-kra vonatkozó általános követelmények + Kibocsátási párhuzamosság?**
 _(Gyakoriság: kevésbé ritka)_
 _Megjegyzés: Inkább későbbi vizsgákon szokott lenni, de amúgy ez nem olyan nehéz._
-<Hely a válasznak>
+
+Mindne olyan processzornak amely utasitas szintu parhuzamossagot alkalmaz, ket szigoru szabalynak kell megfelelnie:
+
+1. Fuggosegek kezelese
+
+- A processzornak figyelnie kell az utasitasok kozti fuggosegeket
+
+2. Soros vegrehajtas konzisztenciaja
+
+- A programnak a parhuzamos vegrehajtas mellet pontosan ugy kell viselkednei mintha a programozo altal megirt sorrendben egymas utan futottak volna le az utasitasok
+
+Kibocsatasi parhuzamossag
+
+- Kibocsatasi parhuzamossagnak nevezzuk, ha a CPU a dekodolo egysege egyetlen oraciklus alatt egynel tobb utasitast kepes tovabb kuldeni vegrehajtasra.
+- A kibocsatas az a folyamat amikor a dekodolt utasitasok atkerulnek a vegrehajto egysegbe. Ha a CPU kepes parhuzamosan tobb utasitas vegrehajtasara a kibocsatasi kapacitast novelni kell.
 
 ---
 
 **83. Milyen szintű párhuzamosságokat használnak a mai processzorokban? Sorolja fel és mindegyik mellé írjon legalább egy gyakorlati példát!**
 _(Gyakoriság: kevésbé ritka)_
 _Megjegyzés: Őszintén fogalmam sincs, mi akar ez lenni, pedig már többször volt._
-<Hely a válasznak>
+
+- Utasitas szintu parhuzamossag (ILP - Instruction Level Parallelism)
+  - futoszalag vagy szuperskalar vegrehajtas
+- Szal szintu parhuzamossag (TLP - Thread Level Parallelism)
+  - Hyper-Threading (SMT) - egyetlen mag ket programszalat hajt vegre parhuzamosan
+- Adat szintu parhuzamossag (DLP - Data Level Parallelism)
+  - SIMD utasitasok, amikor egy utasitassal 8db 32 bites szamot adunk ossze egyszerre
+- Folyamat/Mag szintu parhuzamossag (Multi-Core)
+  - Tobmagos processzorok
 
 ---
 
 **84. Milyen adatfüggőségeket ismer?**
 _(Gyakoriság: kevésbé ritka)_
-<Hely a válasznak>
+
+- Valos adatfuggoseg (RAW - Read After Write)
+  - muveleti adatfuggoseg
+  - lehivasi adatfuggoseg
+- Al adatfuggoseg
+  - WAR (Write After Read)
+  - WAW (Write After Write)
+- Ciklusbeli adatfuggoseg
 
 ---
 
 **85. Sorolja fel a függőségek 3 fő csoportját és ismertesse a RAW függőséget (probléma felvetés, kezelés)!**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Itt beszélni kell a műveleti adatfüggőségről és a lehívási adatfüggőségről is._
-<Hely a válasznak>
+
+Muveleti adatfuggoseg
+
+Problema: Az I2 utasitas olvasni akar egy adatot amit az I1 meg nem irt vissza
+Pelda: Ket szamot ossze akarunk szorozni majd az eredmenyeket ossze akarjuk adni.
+
+Kezelese:
+
+1. NOP (No Operand) -> varakozo ciklusok beiktatasa => Lassitja a vegrehajtast es mas is csuszik
+2. Operandus elorehozas (Forwarding) -> Extra hardverrel az eredmenyt az ALU vegerol azonnal visszavezetik, megsporolva a varakozast
+
+Lehivasi adatfuggoseg
+Az operandusokat vegrehajtas elott az adatcache/operativ tarbol a regiszterekbe kell tolteni
+
+Problema: Ha az adat nincs a regiszterben a betoltese idoigenyes ami varakozasra kenyszeriti az ALU-t
+Kezeles: Betoltesi operandus elore hozasa: extra hardverrel az adatot a regiszter mellet kozvetlenul az ALU bemenetere is tovabbitjak
+Kovetkezmeny: Legalabb 1 oraciklus nyereseg a vegrehajtasi idoben
 
 ---
 
 **86. Ismertesse a WAR és WAW ál-adatfüggőségeket! (probléma felvetés, kezelés)**
 _(Gyakoriság: gyakori)_
-<Hely a válasznak>
+
+WAR (Write After Read)
+
+Az iras hamarabb tortenne meg mint az elozo utasitas olvasasa
+
+I1 -> MUL r3 r2 r1 = r1 es r2 erteket szorozzuk es beleirjuk r3-ba
+I2 -> ADD r2 r4 r5 = r2be irjuk az r4 es r5 osszeadas eredmenyet
+
+Elorodulhat, hogy az I2 ADD utasitas eredmenye hamarabb irja felul az r2 eredmenyet, mint a megelozo utasitas operandusainak beolvasasa.
+
+Megoldas (regiszter atnevezese):
+I1 MUL r3 r2 r1
+I2 ADD r23 r4 r5
+
+=> Az r23 -> r2 hozzarendelest nyilvan kell tartani, majd amikor a MUL utasitas vegzett, vissza kell irni r23 tartalmat r2-be
+
+WAW (Write After Write)
+
+Ket iras korul a kesobbi logikai utasitas (pl: ADD) hamarabb irna felul a regisztert mint a korabbi (pl: MUL)
+
+I1 MUL r3 r2 r1
+I2 ADD r3 r4 r5
+
+Elofordulhat, hogy az I2 ADD utasitas elobb fut le mint a az I1 MUL, igy az I2 utasitas felulirja I1 eredmenyet -> Serul a szekvencialis konzisztencia
+
+Megoldas: regiszter atnevezes
+
+Atnevezesi regiszterek tulajdonsagai:
+
+- uj onallo regiszter
+- sajat cimtartomannyal rendelkezik
+- programozo szamara transzparens
+- extra hardvernek szamit
+
+Ebbol adodik hogy ket fele regiszterkeszletet kulonboztetunk meg
+
+1.  Architekturalis regiszterkeszlet
+2.  Atnevezesi regiszterkeszlet
 
 ---
 
 **87. Ismertesse a vezérlés függőséget (probléma felvetés, kezelés)!**
 _(Gyakoriság: gyakori)_
-<Hely a válasznak>
+
+- Feltetel nelkuli elagazas
+  - Problema: Az ugras parancs keson allitja be a PC-t, addigra mag a futoszalag vegrehajtas miatt a kovetkezo parancs lehivasra kerult vagy akar le is futott -> hibas mukodes
+  - Kezeles:
+    - Ugrasi buborek: A JMP utasitas moge egy vagy tobb NOP utasitas kerul be, ezzel lassitva a futoszallagot, mig elo nem all az ugrasi cim => csokken a teljesitmeny
+    - Utasitasok atrendezese: optimalizalo compiler segitsegevel
+- Felteteles elagazas
+  - kezelese: ma mar csak dinamikusan a vegrehajtas soran tortenhet, hiszen a feltetel teljesulesetol vagy nem teljesulesetol fugg, hogy ugras vagy soros folytatas kovetkezik-e
 
 ---
 
 **88. Mi az az erőforrás függőség?**
 _(Gyakoriság: kihalt)_
 _Megjegyzés: Ezt nem fogja kérni tőlünk._
-<Hely a válasznak>
+
+NO ANSWER
 
 ---
 
 **89. Párhuzamos végrehajtás esetén milyen esetekben sérülhet a szekvenciális konzisztencia, és hogyan lehet ezeket kezelni?**
 _(Gyakoriság: gyakori)_
-<Hely a válasznak>
+
+- Utasitas feldolgozas soros konzisztenciaja (WAR/WAW)
+
+  - Az egyik utasitas gyorsabban tud lefutni es ezzel felulirhatja egy elotte levo meg le nem futott utasitas regiszteret es ezzel felboritja a rendszer egyensulyat. Ennek a megoldasa, ha neha atnevezunk regisztereket, majd kesobb visszairjuk az adatokat amikor a lassabb elso utasitas is lefutott, valamint hardveres biztositas (pl, belso kovetes, kulon allapotjelzok), hogy a felteteles utasitas csak a kozvetlen elozo utasitas eredmenyet lassa
+
+- Kivetelkezeles
+  - Ha az egyik utasitasnal exception lepett fel de mar 3 utasitast is kiszamoltunk elore, akkor biztositani kell, hogy a szamitogep allapota a hiba pillanataban pontosan olyan legyen, mintha szekvencialisan futottunk volna.
 
 ---
 
 **90. Mit tud a kivételkezelés soros konzisztenciájáról?**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Pontatlan (gyenge konzisztencia) és pontos (erős konzisztencia) részét is tudni kell, ezek szoktak külön kérdések is lenni._
-<Hely a válasznak>
+
+A megszakitasokat az utasitasok eredeti programsorrendjeben kell kezelni, akkor is ha a vegrehajtas parhuzamos.
+
+- Pontatlan kivetelkezeles (gyenge konzisztencia)
+
+  - A CPU azonnal fogadja a megszakitast, fuggetlenul attol, hogy az elozo utasitasok befejezodtek-e
+
+  ```
+  I1 MUL r3 r2 r1
+  I2 ADD r5 r6 r7 -> tulcsordul es ker egy megszakitast
+  I3 JZ cimke     -> ha az eredmeny 0, akkor ugras
+  ```
+
+  - Ha a gyorsabb utasitas hibaja miatt a CPU azonnal menti a kontextust, nem tudhato, hogy a logikailag korabbi, lassabb muvelet befejezodott-e -> ez definialatlan regiszterallapotot es sulyos mukodesi hibakat okoz
+
+- Pontos kivetelkezeles
+  - Megszakitas csak akkor fogadhato el, ha minden korabbi utasitas
+    - befejezodott
+    - vagy szinten megszakitast ker
+  - Eredmeny: A mentett allapot mindig egy valos, szekvencialis programsorrendi allapot
+  - Megvalositas
+    - atrendezo puffer (ROB - reorder buffer)
+    - cimkezes: utasitasok sorszamozasa, csak akkor fogadjuk el, ha egyetlen megelozo sorszamu sem kert
 
 ---
 
 **91. Sorolja fel az ideális futószalagos feldolgozás előfeltételeit 2 fokozat esetén!**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Gyakori elővizsga/vizsga kérdés._
-<Hely a válasznak>
+
+- 2 db egymastol teljesen fuggetlen vegrehajto egyseggel rendelkezik
+- Egyik fokozat kimenete a masik fokozat bemenete kell legyen
+- Mindket fokozat vegrehajtasi ideje azonos
+- Orajelre szinkronizaltan 1 oraciklus alatt elvegzik a feladatukat
+  T: szekvencialis vegrehajtasi ido
+  t: futoszallagos vegrehajtasi ido
+  t = T/2
+  Fuggosegek kezelese:
+  - Operandus elorehozas
+  - Ujrafeldolgozas
 
 ---
 
 **92. Sorolja fel a RISC CPU-k tanult jellemzőit!**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Előny, hátrány is szokott lenni._
-<Hely a válasznak>
+
+Reduced Instruction Set Computing
+
+- Utasitasok: Keves (50-150) -> egyszeru cimzesi modok, azonos hosszusagu utasitasok pl.: 64/128 bit
+- Muveletvegzes: Kizarolag regisztereken vegez muveletet; memoria es cache eleres csak a LOAD/STORE utasitassal erheto el
+- Felepites: Sok regiszter, huzalozodd dekodolas (hardveres dekodolas)
+- Vegrehajtas: 3 operandusos, cel az 1 oraciklusos futas
+- Szoftver: Bonyolultabb compiler
+
+- Elonyok: alacsonyabb fogyasztas, gyorsabb utasitas szintu vegrehajtas
+- Hatranyok: bonyolultabb feladatokat instrukcio szekvenciakkal kell megoldani, kisebb kompatibilitas, kisebb teljesitmeny ugyan azon a frekvencian (x86-64-hez kepest)
 
 ---
 
 **93. Sorolja fel a CISC CPU-k tanult jellemzőit!**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Előny, hátrány is szokott lenni._
-<Hely a válasznak>
+
+Complex Instruction Set Computing
+
+- Utasitasok
+  - nagy szamu utasitaskeszlet (tobb szaz)
+  - valtozo hosszusagu, akar osszetett utasitasok -> dekodolonak nem csak dekodolnia kell az utasitast, hanem azonositani a veget, plusz hardvert es idot igenyel
+  - egy utasitas tobb elemi muveletet is vegre tud hajtani
+- Muveletvegzes: kozvetlen memoriaeleres lehetseger (2. operandus lehet memoria/cache)
+- Felepites: Nagy belso mikroprogramtar, kevesebb regiszter
+- Vegrehajtas: 2 operandusos - elso operandus nem lehet memoria vagy cache cim, utasitasok feldolgozasa tobb ciklusido lehet -> bonyolultabb feldolgozas
+- Futoszalag: Altalaban +2 fokozat, sebessegkulonbseg eseten Interlock varakoztatas
+- Szoftver: Egyszerubb compiler es gepi kodu programozas
+- Extrak: Regi programokkal kompatibilis, HyperThreading es virtualizacio tamogatasa
+
+- Elonyok: egyszerubb compilerek, szeles termekskala, kompatibilitas, nagy nyers teljesitmeny
+- Hatranyok: komplex hardver, lassabb dekodolas, magasabb energiafogyasztas
 
 ---
 
 **94. Miért hosszabb a CISC futószalag a RISC-nél?**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Előző két kérdések valamelyikével szokott együtt lenni, külön általában nincsen._
-<Hely a válasznak>
+
+A CISC pipelineba pluszba kell:
+
+- AG - cimszamitas
+- DC1-2 - Data cache
 
 ---
 
 **95. Milyen következményekei lettek a futószalagos architektúráknak? Milyen új problémák jelentkeztek (problémák okai és kezelésük 1-1 mondatban)?**
 _(Gyakoriság: ritka)_
 _Megjegyzés: Későbbi vizsgákon szokott lenni._
-<Hely a válasznak>
+
+- Adatfuggosegek (RAW)
+  - ok: egy utasitasnak szuksege van az elozo eredmenyere ami meg nem keszult el
+  - kezeles: varakoztatas, vagy operandus elorehozas
+- Vezerlesfuggoseg
+  - ok: ugro utasitasoknal nem tudjuk mi a kovetkezo utasitas, mig a feltetel ki nem ertekelodik
+  - kezeles: elagazas becsles vagy futoszalag uritese
+- Eroforras konfliktus
+  - ok: ket utasitas egyszerre akarja hasznalni ugyanazt a hardvert
+  - kezeles: tobbportos memoria / harvard architektura
 
 ---
 
 **96. Milyen közös jellemzői vannak az I. és II. generációs szuperskalár architektúráknak?**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Gyakori elővizsga/vizsga kérdés._
-<Hely a válasznak>
+
+- Parhuzamos kibocsatas: dekodolo egysegbol egy oraciklusban tobb utasitas kibocsatas
+  - 1.gen: 2-3 utasitas/ciklus
+  - 2.gen: 4-6 utasitas/ciklus
+- Idobeli + terbeli parhuzamossag: tobb futoszalag parhuzamosan
+- Maguk kuzdenek meg fuggosegekkel: dinamikusan, extra hardver segitsegevel
+- Kompatibilitas: regi programok is futtathatok maradnak
 
 ---
 
 **97. Ismertesse a Harvard architektúrát!**
 _(Gyakoriság: ritka)_
 _Megjegyzés: Elvileg rajzot is kérhet ide._
-<Hely a válasznak>
+
+- Utasitas es adat kulon uton mozog -> parhuzamos eleres
+- Kulon adatutaok, novekszik a teljesitmeny
+
+Szuperskalar CPU-kban:
+
+- L1 cache: Harvard: utasitas + adat kulon tarolodik
+- L2, L3 cache: Neumann: utasitas + adat kozosen tarolodnak
+- Modositott Harvard architektura
+  - program adatkent is kezelheto
+  - Mai CPU-k Harvard + Neumann egyutt
+
+Vezerlesi vazlat
+
+- Vezerloegyseg (CONTROLL): lehivja az utasitast az Instruction Cachebol (INSTR adatut)
+  - Ez alapjan jelet kuld a Data Cache-nek, hogy az ALU-ba milyen cim keruljon
+  - Kozben az Instruction Cache fele is kuld jelet: kovetkezo utasitas + aktualis adat egyszerre erkezik meg
+- ALU: IN es OUT adatutakon kommunikalhat a periferiakkal
+  - vezerloegyseg iranyitja az ALU-t, STATUS adatuton visszacsatolat biztosit fele
+
+Minden muvelet orajelre szinkronizalt
+
+- Elonyei:
+  - kepes parhuzamosan adatot es utasitast olvasni vagy irni cache nelkul
+  - Az adat es utasitas tarolok kulonallo cimtartomannyal rendelkeznek
 
 ---
 
 **98. Milyen fajtái vannak a szűk keresztmetszeteknek?**
 _(Gyakoriság: ritka)_
-<Hely a válasznak>
+
+- Kibocsatas: kozvetlen kibocsatas miatt a gyakorlati teljesitmeny (kb 1 utasitas / ciklus) messze elmaradt az elmeleti lehetosegektol
+- Memoria: a memoria lassusagot csokkentettek a cache bevezetesevel
+- Elagazasfeldolgozas: csokkentese statikus elagazasbecslessel
+- Blokkolo adatfuggosegek: ez volt a legnagyobb problema: az adatfuggosegek es az al-adatfuggosegek is teljesen blokkoltak a vegrehajtast, mert a rendszer meg nem tudta ezeket kezelni
 
 ---
 
 **99. Sorolja fel a II. generációs szuperskalárok újdonságait (1-1 mondat magyarázatként mindegyikhez)!**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Gyakori elővizsga/vizsga kérdés._
-<Hely a válasznak>
+
+- Dinamikus utasitas utemezes
+  - A cpu nem ragad le egy hibas vagy varakozo utasitasnal, hanem atugorja azt es halad tovabb a tobbiel.
+  - Kibocsatas: a dekodolobol a varakoztato allomasba meg sorrendbe erkeznek az utasitasok
+  - Kikuldes: a varakoztato allomasbol a vegrehajto egysegek fele mar sorrenden kivul mennek az utasitasok amint felszabadulnak a szukseges adatok (streber modell)
+  - Eredmeny: Megszunteti a kibocsatasi szuk keresztmetszetet es noveli az atbocsatokepesseget
+- Regiszter atnevezes
+  - Az al adatfuggosegek felszamolasa. A cpu minden eredeti regiszterhez egy kulon atnevezesi regisztert rendel. Tamogatja a dinamikus elagazasbecslest, ha a CPU rossz agon indult el az eredmenyek csak az atnevezesi regiszterben vannak
+- Dinamikus elagazasbecsles
+  - Az elagazasok kimenetet tortenet bitekben tarolja a CPU es ebbol josol a kovetkezo alkalomra.
+  - Becsles tipusai:
+    - 1 bites: csak az utolso elagazas alapjan dont.
+    - 2 bites
+      - 11 - hatarozott
+      - 10 - gyenge
+      - 01 - gyenge soros
+      - 00 - hatarozott soros folytatas
+- Kifinomult es kibovitett gyorsitotar alrendszer
+- Sorrenden kivuli kikuldes
+  - kibocsataskor mar nincs fuggosegvizsgalat.
+  - Ez a puffer valasztja el a folyamat elso reszet (lehivas/dekodolas) a hatso reszetol (tenyleges vegrehajtas)
+- RISC mag
+- Reorder Buffer
+  - Kor alaku puffer: A ROB egy folytonos korpufferkent mukodik ahol az utasitasok a bemeneti mutatoknal lepnek be es a vegmutatonal tavoznak
+  - Parhuzamos kikuldes: a ket mutato kozotti teruleten varakozo utasitasok korul barmelyik fuggetlen utasitas kikuldheto vegrehajtasra, fuggetlenul az eredeti sorrendtol
 
 ---
 
 **100. A reorder buffer (ROB) működése ÁBRÁVAL + Kiírási szabályok!**
 _(Gyakoriság: kevésbé ritka)_
 _Megjegyzés: A kiírási szabályok külön kérdés is lehet szerinte. NAGYON FONTOS TUDNI KÉSŐBBI VIZSGÁKRA! Elővizsgán szerintem nem lehet._
-<Hely a válasznak>
+
+- Kor alaku puffer
+  - A ROB egy folytonos korpufferkent mukodik ahol az utasitasok a bemeneti mutatoknal lepnek be es a vegmutatonal tavoznak
+- Parhuzamos kikuldes
+  - a ket mutato kozotti teruleten varakozo utasitasok korul barmelyik fuggetlen utasitas kikuldheto vegrehajtasra, fuggetlenul az eredeti sorrendtol
+- Spekulativ vegrehajtas es biztonsag
+  - Spekulativ bit: minden utasitashoz tartozik egy bit: ha erteke 1 az utasitas feltetele meg nem kerult kiertekelesre
+  - Amig a spekulativ bit 1 az eredmeny nem irhati ki a vegleges memoriaba
+- Feltetel kiertekelese utan
+  - helyes irany eseten a spekulativ bit erteke 0-ra all
+  - hibas irany eseten a ROB-bol torlesre kerul az utasitas es az atnevezesi regiszterek felszabadulnak
+- Kiirasi szabalyok
+  - Csak akkor irhati ki, ha minden korabbi utasitas kiirasa mar megtortent
+  - SPekulativ allapotban levo utasitas nem irhato ki
+  - CISC-rekonverzio utasitas tobb belso RISC muveletre bomlik, a kiiras csak akkor tortenik meg, ha az osszes hozzatartozo RISC egyseg elkeszult. Itt tortenik a rekonverzio is
 
 ---
 
 **101. Ismertesse az utasításon belüli párhuzamosság elvét! Milyen gyakorlati megvalósításokat ismer?**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Fogalmam sincs, mi szeretne lenni a "gyakorlati megvalósítás". Talán felsorolni a duál műveleti, VLIW és SIMD-et és a SIMD-ről írni?_
-<Hely a válasznak>
+
+- Dual muveleti utasitasok
+  - Egy utasitas ket muveletet vegez (multiply-add: y = ax + b)
+- SIMD utasitasok
+  - Egyetlen utasitas, tobb egymastol fuggetlen operanduson hajtja vegre ugyanazt a muveletet
+- VLIW architekturak
+  - A forditoprogram csomagol tobb fuggetlen muveletet egyetlen hosszu utasitasszoba
 
 ---
 
 **102. SIMD-nél fontos tudni fixpontos és lebegőpontos multimédiát, de alapjáraton a jellemzőket több vizsgán is kérte már!**
 _(Gyakoriság: kevésbé ritka)_
 _Megjegyzés: Számomra ez rejtély. Valóban szerepel a táblázatban több helyen, hogy SIMD, de nem tudom, hogy mit kért ott. Nehéz kérdésnek titulálnám._
-<Hely a válasznak>
+
+- Logikai architektura kiterjesztese
+  - uj multimedias utasitas keszletet alkottak
+- Memoriaigeny
+  - Egy utasitas akar 8 operandust is kerhet, ami drasztikusan novelte a savszekesseg igenyt
+  - Megoldas: Az L2 cache beepult a processzorba
+- Buszrendszer
+  - Megjelent az AGP, majd a PCI Express a grafikai adatok gyorsabb mozgatasahoz
+- MMX (Multimedia Extension)
+  - fixpontos multimedias utasitasok
+- SSE (Streaming SIMD Extension)
+  - ami mar lebegopontos muveleteket is tamogatta
+- Alkalmazas
+  - Multimedias alkalmazasoknal mint video, kep es 3d jatekok eseten oriasi gyorsulast jelentett
 
 ---
 
 **103. SIMD Logikai Architektúra + 3D Ábrázolás**
 _(Gyakoriság: kihalt?)_
 _Megjegyzés: Lehet hogy a fizikai/logikai architektúrát kérdezi, amikor SIMD-et kérdez, viszont elvileg 3D ábrázolást tőlünk már nem fog kérdezni._
-<Hely a válasznak>
+
+Logikai architektura kibovitese
+
+- Pakolt adattipusok: 64 bites egysegekbe tobb kisebb adatot csomagolnak
+  - Pakolt byte (8 bit hossz x 8db = 64 bit)
+  - Pakolt felszo (16bit hossz x 4db = 64 bit)
+  - Pakolt szo (32 bit hossz x 2db = 64 bit)
+  - SSE pakotl tipus - egyszeres pontossag (32 bit x 4db = 128 bit)
+  - SSE pakotl tipus - ketszeres pontossag (64 bit x 2db = 128 bit)
+- Bit-blokk atvitel
+  - Az ablakokat/kepeket egyseges blokkonkent kezeli a rendszer, igy nem kell elemenkent mozgatni a hatalmas adatmennyiseget
+
+Fizikai architektura kibovitese
+
+- SSE (lebegopontos): 8 darab uj 128 bites regiszterek kerultek a cpu-ba
+- Operacios rendszer tamogatasa: AZ uj regiszterek es a megvaltozott megszakitasrendszer miatt szikseg volt az OS egyutmukodesere
 
 ---
 
 **104. Mutassa be a VLIW működési elvét!**
 _(Gyakoriság: kihalt)_
 _Megjegyzés: VLIW már nem az anyag része._
-<Hely a válasznak>
+
+NO ANSWER
 
 ---
 
 **105. Milyen előnyei és hátrányai vannak a VLIW-nek a szuperskalárokhoz képest?**
 _(Gyakoriság: kihalt)_
 _Megjegyzés: VLIW már nem az anyag része._
-<Hely a válasznak>
+
+NO ANSWER
 
 ## 12. Modul: Netburst és Szálak
 
 **106. Hogyan növelhető a frekvencia, milyen következményekkel jár? (Netburst)**
 _(Gyakoriság: gyakori)_
-<Hely a válasznak>
+
+- Gyartasi csikszelesseg csokkentese (180nm -> 65nm) Kisebb tranzisztorok = gyorsabb elektronaramlas = magasabb orajel
+- Futoszalag-fokozatok roviditese
+  - A logikai kapuk szamanak csokkentese egy fokozatun belul
+  - Ez kenyszeruen novelte a fokozatok szamat
+  - Tobb fokozat -> parhuzamosan vegrehajtott utasitasok szama nott -> fuggosegek szama is no -> csokkenhet a hatekonysag es egy ertek folott a teljesitmeny is
 
 ---
 
 **107. Ismertesse a "rapid execution engine", a "replay system" és az "execution trace cache" tulajdonságait, előnyök, hátrányok (Netburst architektúra)!**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Gyakori elővizsga kérdés._
-<Hely a válasznak>
+
+- Execution Trace Cache:
+  - Az L1 cache mar dekodolt RISC utasitasokat tarol a vegrehajtas sorrendjeben, igy sporol a dekodolasi idon
+- Execution Engine
+  - Az egyszeru FX muveletek gyors vegrehajtasara Az orajel felfuto es lefuto elere is kepes muveletvegzesre -> vegrehajtasi ido akar fel oracuklus
+- Replay System
+  - RISC szeru utasitasok ismetelt vegrehajtasa
+  - Ha egy utasitas adata meg nincs keszm nem allitja meg a futoszalagot, hanem beleteszi egy varolistaba es kesobb ujraprobalja
 
 ---
 
 **108. Sorolja fel a Netburst architektúra újdonságait rövid magyarázatokkal!**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Ide a kell az Execution Trace Cache, Rapid Execution Engine, Replay System ÉS Hyper futószalag, Quad Data Rate Bus, Enchanced Branch Prediction._
-<Hely a válasznak>
+
+- Execution Trace Cache:
+  - Az L1 cache mar dekodolt RISC utasitasokat tarol a vegrehajtas sorrendjeben, igy sporol a dekodolasi idon
+- Execution Engine
+  - Az egyszeru FX muveletek gyors vegrehajtasara Az orajel felfuto es lefuto elere is kepes muveletvegzesre -> vegrehajtasi ido akar fel oracuklus
+- Replay System
+  - RISC szeru utasitasok ismetelt vegrehajtasa
+  - Ha egy utasitas adata meg nincs keszm nem allitja meg a futoszalagot, hanem beleteszi egy varolistaba es kesobb ujraprobalja
+- Quad Data Rate Bus
+  - Orajelenkent 4x-es adattovabbitas (felfuto/lefuto + faziseltolas) L1 es L2 gyorsitotarak fele. Szukseges 2 orajel generator
+- Enchanced Branch Prediction
+  - Uj elagazasbecslo logika 94%-97%-os hatekonysagu, hogy a futoszalagot ne keljen gyakran uriteni
+- Hyper futoszalag
+  - A dekodolast kihelyeztek a futoszalagon kivulre, hogy ne akadalyozza a magas frekvenciat
 
 ---
 
 **109. Ismertesse a Netburst architektúra hátrányait! + idén ahogy mondta: Fejlődési korlátok**
 _(Gyakoriság: kevésbé ritka)_
 _Megjegyzés: Úgy is szokott lenni, hogy Netburst következményei._
-<Hely a válasznak>
+
+- Hatekonysagi korlat
+- Disszipacios korlat (ho)
+  - Statikus disszipacio
+    - A szivargasi aram hoveszteseget okoz. Ahogy csokkentettek a csikszelesseget es noveltek a frekvenciat a szivargasi aram exponencialisan novekedni kezdett
+  - Dinamikus disszipacio
+    - A frekvencia novelese linearisan mig a feszultseg novelese negyzetesen novelo a hot -> frekvencia emeleset a feszultseg csokkentesevel probaljak ellensulyozni
+- Parhuzamos buszok frekvencia korlatja
 
 ---
 
 **110. Pentium 4 Legfontosabb Újítások**
 _(Gyakoriság: kihalt?)_
 _Megjegyzés: Nem hinném, hogy ezt már kérné, de ki tudja._
-<Hely a válasznak>
+
+- CISC kivul, de belul egy gyors RISC mag
+- Hosszu futoszallagok: tobb fuggoseg, de magasabb frekvencia
+- Vedelem: bevezettek a Thermal Monitort ami tulmalegedesor visszavette az orajelet
 
 ---
 
 **111. Mi az a statikus disszipáció, ismertesse, írja fel a képletét!**
 _(Gyakoriság: kevésbé ritka)_
-<Hely a válasznak>
+
+- Ahogy csokkentettek a csikszelesseget es noveltek a frekvenciat a szivargasi aram exponencialisan novekedni kezdett
+
+```
+Ds = V * Ileak
+V = frekvencia
+Ileak = szivargasi aram
+```
 
 ---
 
 **112. Sorolja fel a disszipáció típusait képlettel, és jellemezze ezeket!**
 _(Gyakoriság: kevésbé ritka)_
-<Hely a válasznak>
+
+- A frekvencia novelese linearisan mig a feszultseg novelese negyzetesen novelo a hot -> frekvencia emeleset a feszultseg csokkentesevel probaljak ellensulyozni
+
+```
+Dd = A * C * V^2 * fc
+A = az aktiv kapuk reszaranya
+C = a kapuk osszesitett elosztott kapacitasa
+V = tapfeszultseg
+fc = megfrekvencia
+```
 
 ---
 
 **113. Mi az a Data Valid Window? Ábrázolja és magyarázza el!**
 _(Gyakoriság: ?)_
 _Megjegyzés: Ezt inkább a párhuzamos buszok frekvencia korlátaival sorolnám fel, elvileg eddig nem nagyon kérte, de simán kérheti._
-<Hely a válasznak>
+
+- A digitalis jelek a valosagban nem tokeletesek. A jel felfutasahoz es lefutasahoz ido kell, raadasul a zaj es kesleltetesi kulonbsegek miatt a jel remeg
+  - A data valid window az az ablak az orajel ciklus kozepen ahol a jel mar megnyugodott
 
 ---
 
@@ -1290,46 +2153,104 @@ _Megjegyzés: Itt egyedül a DVFS-t vettük, illetve a Jitter/Skew az szintén a
 
 **115. Sorolja fel a thread (szál) tulajdonságait, miért rosszabb mint az ILP?**
 _(Gyakoriság: kevésbé ritka)_
-<Hely a válasznak>
+
+Thread: A program legkiseb onalloan vegrehajthato resze -> parhuzamosan futtathato
+
+- implicit parhuzamossag
+  - A programozo hagyomanyos soros kodot ir. A parhuzamositast a hardver es a compiler vegzi
+- explicit parhuzamossag
+  - A programozo tudatosan parhuzamos szerkezetu kodot ir, kulon meghatarozva a szalakat es azok egyuttmukodeset
 
 ---
 
 **116. Szál definíció**
 _(Gyakoriság: kevésbé ritka)_
 _Megjegyzés: Más kérdésekkel szokott együtt lenni._
-<Hely a válasznak>
+
+Thread: A program legkiseb onalloan vegrehajthato resze -> parhuzamosan futtathato
 
 ---
 
 **117. Szálak származtatása**
 _(Gyakoriság: ?)_
 _Megjegyzés: Fogalmam sincs, hogy ezt mikor/hol kérte._
-<Hely a válasznak>
+
+- implicit parhuzamossag
+  - A programozo hagyomanyos soros kodot ir. A parhuzamositast a hardver es a compiler vegzi
+- explicit parhuzamossag
+  - A programozo tudatosan parhuzamos szerkezetu kodot ir, kulon meghatarozva a szalakat es azok
 
 ---
 
 **118. SMP SMT (Többszálú CPU), SMT Megvalósítási célok**
 _(Gyakoriság: ?)_
 _Megjegyzés: Fogalmam sincs, hogy ezt mikor/hol kérte._
-<Hely a válasznak>
+
+Tobbszalusag csoportositasa
+
+- Szoftveres: Tobbszalu alkalmazasok, vagy OS futtatasa egyszali CPU-n
+- Hardveres: A CPU maga tamogatja tobb szal kezeleset
+- SMP - Symmetric multiprocessing: tobb kulon mag egy lapkan
+- SMT - Simultaneous multithreading: Egy mag futtat egyszerre tobb szalat (HyperThreading)
 
 ---
 
 **119. Röviden ismertesse a szál szintű párhuzamosság tanult típusait (3 db)!**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Gyakori elővizsga/vizsga kérdés._
-<Hely a válasznak>
+
+- Finoman szemcsézett
+  - Működési elv: Órajelenként vált a szálak között
+  - Előny: Nincs váltási késleltetés; az egyik szál elakadása nem állítja meg a CPU-t
+  - Hátrány: Az egyedu szálak végrehajtási ideje megnő, mivel ritkán kapnak vezérlést
+- Durván szemcsézett
+  - Működési elv: Akkor vált szálat, ha az aktuális elakad
+  - Előny: Egyetlen szál képes a teljes CPU eroforrast maximalis sebesseggel kihasznalni
+  - Hátrány: A valtas felusmerese es a kontextus csere 1-2 ciklus vesztesggel jar
+- SMT
+  - Működési elv: Egyetlen orajelen belul tobb kulonbozo szal utasitasait futtatja egyszerre
+  - Előny: Kitolti a fuggosegek miatti uresjaratokat a vegrehajto egysegekben
+  - Hátrány: -
 
 ---
 
 **120. Miért "éri meg" a szál szintű párhuzamosságot használni?**
 _(Gyakoriság: gyakori)_
 _Megjegyzés: Gyakori elővizsga/vizsga kérdés._
-<Hely a válasznak>
+
+Kitolti a fuggosegek miatti uresjaratokat a vegrehajto egysegekben. Mivel az egymagos CPU-k komplexitasanak novelese mar nem hozott aranyos teljesitmenyjavulast a fejlesztes az utasitasszintu parhuzamossagrol a szalszintuparhuzamossag fele fordult.
 
 ---
 
 **121. Ismertesse az Intel Hyper Threading technológiát!**
 _(Gyakoriság: kevésbé ritka)_
 _Megjegyzés: Inkább későbbi vizsgákon szokott lenni._
-<Hely a válasznak>
+
+Egy két szálas SMT megoldás amely először a Pentium 4-el jelent meg.
+
+Lényege:
+
+- Egyetlen fizikai mag; az operacios rendszer fele ket logikai CPU-kent jelenik meg. A processzor ket kulonbozo szal utasitasait kezeli es kuldi vegrehajtasra (sorrenden kivul)
+- A CPU-ban ekkor egyszerre ket achitekturalis allapot van jelen
+  - ket kulon PC, regiszterkeszlet, de a vegrehajto egysegeken osztoznak
+
+Uzemmodok:
+
+- ST (Single Task)
+  - egy szal vegrehajtas tortenik
+  - A szal az osszes vegrehajtp eroforrast megkapja
+  - Ket lehetseges allapot ST0 vagy ST1 attol fugg melyik logikai CPU aktiv
+- MT (Multi task)
+  - Tobb szal vegrehajtasa tortenik parhuzamosan
+  - A szalak osztoznak a vegrehajto egysegeken
+
+Mukodes
+
+- A CPU alapertelmeuetten MT modban indul
+- Ha az egyik szal megszakad ST modba valt
+- Fuggoseg megszunesekor visszater MT modba
+- Uzemmod valtas HALT utasitassal tortenik
+  - Megszakitja a CPU futast
+  - Energiatakarekot allapotba helyezi
+- HALT utan ST0 vagy ST1 allapotba kerul
+- HALT utasitast kizarolag az OS vagy mas alacsony szintu szoftver adhatja ki.
