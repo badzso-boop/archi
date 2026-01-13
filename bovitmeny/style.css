@@ -4,7 +4,12 @@
   right: 20px;
   width: 400px;
   max-height: 80vh;
-  background-color: rgba(255, 255, 255, 0.5); /* Kicsit több fehér, hogy az alacsony opacity mellett is legyen kontraszt */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.5
+  ); /* Kicsit több fehér, hogy az alacsony opacity mellett is legyen kontraszt */
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   z-index: 999999;
@@ -13,16 +18,16 @@
   font-family: Arial, sans-serif;
   padding: 15px;
   font-size: 14px;
-  
+
   /* Ez teszi az EGÉSZET szinte láthatatlanná (5%-os láthatóság) */
-  opacity: 0.05;
+  opacity: 0.03;
   transition: opacity 0.2s;
 }
 
 /* Opcionális: Ha rásimítasz az egérrel, picit erősödik a láthatóság, 
    hogy te azért lásd, ha épp olvasod. Ha ezt nem akarod, töröld ki. */
 #archi-helper-overlay:hover {
-  opacity: 0.15;
+  opacity: 0.2;
 }
 
 #archi-helper-search {
