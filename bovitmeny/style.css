@@ -1,0 +1,67 @@
+#archi-helper-overlay {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 400px;
+  max-height: 80vh;
+  background-color: rgba(255, 255, 255, 0.5); /* Kicsit több fehér, hogy az alacsony opacity mellett is legyen kontraszt */
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  z-index: 999999;
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+  padding: 15px;
+  font-size: 14px;
+  
+  /* Ez teszi az EGÉSZET szinte láthatatlanná (5%-os láthatóság) */
+  opacity: 0.05;
+  transition: opacity 0.2s;
+}
+
+/* Opcionális: Ha rásimítasz az egérrel, picit erősödik a láthatóság, 
+   hogy te azért lásd, ha épp olvasod. Ha ezt nem akarod, töröld ki. */
+#archi-helper-overlay:hover {
+  opacity: 0.15;
+}
+
+#archi-helper-search {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  background-color: transparent;
+  color: #000;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+#archi-helper-results {
+  overflow-y: auto;
+  flex-grow: 1;
+  color: #000;
+}
+
+.archi-question-item {
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.archi-question-title {
+  font-weight: bold;
+}
+
+.archi-question-freq {
+  font-style: italic;
+  font-size: 0.85em;
+}
+
+.archi-question-answer {
+  line-height: 1.4;
+}
+
+.hidden {
+  display: none !important;
+}
